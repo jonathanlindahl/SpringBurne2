@@ -1,5 +1,6 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.repositories.CustomerRepositoryImpl;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -38,8 +39,7 @@ public class App extends Application
         tfPassword.setPrefWidth(200);
         tfPassword.setPromptText("Password");
         Label labelPassword = new Label("Password: ");
-
-
+        
         Button btnLogin = new Button("login");
         Button btnNewUser = new Button("New user");
         Button btnContinue = new Button("Continue without logging in");
@@ -63,7 +63,6 @@ public class App extends Application
         AnchorPane.setTopAnchor(labelPassword, 53.0);
         AnchorPane.setLeftAnchor(labelPassword, 5.0);
 
-
         loginWindow.getChildren().addAll(btnLogin,
                 btnNewUser,
                 btnContinue,
@@ -74,18 +73,11 @@ public class App extends Application
         primaryStage.setScene(loginScene);
         primaryStage.show();
 
-
         btnContinue.setOnAction(e -> searchWindow.searchWindow(primaryStage));
         btnNewUser.setOnAction(e -> createAccount.createAccountWindow(primaryStage));
+        btnLogin.setOnAction(e -> {
+            String email;
+            String pw;
+        });
     }
-
-
-    //    static void setRoot(String fxml) throws IOException {
-//        scene.setRoot(loadFXML(fxml));
-//    }
-//
-//    private static Parent loadFXML(String fxml) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-//        return fxmlLoader.load();
-//    }
 }
