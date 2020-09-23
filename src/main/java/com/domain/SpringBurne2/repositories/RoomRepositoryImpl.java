@@ -29,7 +29,9 @@ public class RoomRepositoryImpl
                 (rs.getInt("Restaurant") > 0),
                 (rs.getInt("ChildClub") > 0),
                 (rs.getInt("CentralLocation") > 0),
-                (rs.getInt("SeaView") > 0));
+                (rs.getInt("SeaView") > 0),
+                rs.getInt("DistanceToBeach"),
+                rs.getInt("DistanceToCenter"));
     }
 
     public static List<Room> getAllRooms()

@@ -1,26 +1,13 @@
 package com.domain.SpringBurne2.gui.utility;
 
 import com.domain.SpringBurne2.models.Customer;
+import com.domain.SpringBurne2.models.Room;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
-import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class REST
@@ -48,11 +35,10 @@ public class REST
         return c;
     }
     
-    public Customer parseCustomer(String s)
+    private Customer parseCustomer(String s)
     {
         String toRemove[] =
                 { "customerId", "firstName", "lastName", "gender", "email", "password" };
-        char sArr[] = s.toCharArray();
         String customer = s.replaceAll("[{\":}]", "");
         String custParams[] = customer.split(",");
         for (int i = 0; i < toRemove.length; ++i)
@@ -66,4 +52,42 @@ public class REST
                 custParams[4],
                 custParams[5]);
     }
+    
+//    public Room getRooms()
+//    {
+//        HttpRequest request = null;
+//        try {
+//            request = HttpRequest.newBuilder()
+//                    .uri(new URI("http://localhost:8080/allrooms"))
+//                    .GET()
+//                    .build();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        CompletableFuture<HttpResponse<String>> response =
+//                HttpClient.newBuilder()
+//                        .build()
+//                        .sendAsync(
+//                                request, HttpResponse.BodyHandlers.ofString());
+//        Room r = parseRoom(response.thenApply(HttpResponse::body).join());
+//        return r;
+//    }
+    
+//    private Customer parseRoom(String s)
+//    {
+//        String toRemove[] =
+//                { "roomId", "name", "lastName", "gender", "email", "password" };
+//        String customer = s.replaceAll("[{\":}]", "");
+//        String custParams[] = customer.split(",");
+//        for (int i = 0; i < toRemove.length; ++i)
+//            if (custParams[i].contains(toRemove[i]))
+//                custParams[i] = custParams[i].replace(toRemove[i], "");
+//        return new Room(
+//                Long.parseLong(custParams[0]),
+//                custParams[1],
+//                custParams[2],
+//                Customer.Gender.valueOf(custParams[3]),
+//                custParams[4],
+//                custParams[5]);
+//    }
 }

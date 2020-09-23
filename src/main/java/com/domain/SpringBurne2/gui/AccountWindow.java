@@ -1,5 +1,6 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -10,7 +11,7 @@ import javafx.stage.Stage;
 
 public class AccountWindow
 {
-    public void accountWindow(Stage primaryStage)
+    public void accountWindow(Stage primaryStage, Customer customer)
     {
         primaryStage.setTitle("SpringBurne");
 
@@ -172,7 +173,7 @@ public class AccountWindow
             labelPassword.setVisible(true);
         });
 
-        btnBack.setOnAction(event -> searchWindow.searchWindow(primaryStage));
+        btnBack.setOnAction(event -> searchWindow.searchWindow(primaryStage, customer));
     }
 
 }
