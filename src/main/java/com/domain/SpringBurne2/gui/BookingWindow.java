@@ -1,5 +1,6 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,7 +18,7 @@ import java.io.FileInputStream;
 
 public class BookingWindow
 {
-    public void bookingWindow(Stage primaryStage)
+    public void bookingWindow(Stage primaryStage, Customer customer)
     {
         SearchWindow searchWindow = new SearchWindow();
         AccountWindow accountWindow = new AccountWindow();
@@ -125,7 +126,7 @@ public class BookingWindow
         primaryStage.setScene(bookingScene);
         primaryStage.show();
 
-        btnCancel.setOnAction(e -> searchWindow.searchWindow(primaryStage));
-        btnConfirm.setOnAction(e -> accountWindow.accountWindow(primaryStage));
+        btnCancel.setOnAction(e -> searchWindow.searchWindow(primaryStage, customer));
+        btnConfirm.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
     }
 }

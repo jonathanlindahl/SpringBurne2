@@ -1,5 +1,6 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.models.Customer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 
 public class SearchWindow
 {
-    public void searchWindow(Stage primaryStage)
+    public void searchWindow(Stage primaryStage, Customer customer)
     {
         AccountWindow accountWindow = new AccountWindow();
         BookingWindow bookingWindow = new BookingWindow();
@@ -43,7 +44,7 @@ public class SearchWindow
         CheckBox cbNightLife = new CheckBox("Night Life");
         Label labelAdult = new Label("Adults: ");
         Label labelKids = new Label("Kids: ");
-        Label labelName = new Label("Namn Efternamn"); // kod för namn behvövs
+        Label labelName = new Label(customer.getFirstName() + " " + customer.getLastName()); //TODO: kod för namn behvövs
         Hyperlink hlAccount = new Hyperlink("Account");
         Button btnContinue = new Button("Continue");
 
@@ -154,7 +155,7 @@ public class SearchWindow
         primaryStage.setScene(searchScene);
         primaryStage.show();
 
-        hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage));
-        btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage));
+        hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
+        btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
     }
 }

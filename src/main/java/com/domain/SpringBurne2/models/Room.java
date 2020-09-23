@@ -16,8 +16,8 @@ public class Room
     private boolean childClub;
     private boolean centralLocation;
     private boolean seaView;
-
-
+    private int distanceToBeach;
+    private int distanceToCenter;
 
     public Room(
             Long roomId,
@@ -31,7 +31,9 @@ public class Room
             boolean restaurant,
             boolean childClub,
             boolean centralLocation,
-            boolean seaView)
+            boolean seaView,
+            int distanceToBeach,
+            int distanceToCenter)
     {
         this.roomId = roomId;
         this.name = name;
@@ -45,7 +47,8 @@ public class Room
         this.childClub = childClub;
         this.centralLocation = centralLocation;
         this.seaView = seaView;
-
+        this.distanceToBeach = distanceToBeach;
+        this.distanceToCenter = distanceToCenter;
     }
 
 
@@ -61,11 +64,14 @@ public class Room
     public boolean hasChildClub() { return childClub; }
     public boolean hasCentralLocation() { return centralLocation; }
     public boolean hasSeaView() { return seaView; }
-
+    public int getDistanceToBeach() { return distanceToBeach; }
+    public int getDistanceToCenter() { return distanceToCenter; }
+    
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Room{" +
-                "roomID=" + roomId +
+                "roomId=" + roomId +
                 ", name='" + name + '\'' +
                 ", rating=" + rating +
                 ", range=" + range +
@@ -77,6 +83,8 @@ public class Room
                 ", childClub=" + childClub +
                 ", centralLocation=" + centralLocation +
                 ", seaView=" + seaView +
+                ", distanceToBeach=" + distanceToBeach +
+                ", distanceToCenter=" + distanceToCenter +
                 '}';
     }
 }
