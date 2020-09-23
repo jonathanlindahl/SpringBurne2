@@ -98,6 +98,7 @@ public class CreateAccount
                 ioException.printStackTrace();
             }
         });
+        //TODO: prompt successful creation
         btnCreate.setOnAction(e -> {
             String value = (String)cboxGender.getValue();
             Customer c = new Customer(
