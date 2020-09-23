@@ -1,5 +1,7 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.gui.utility.REST;
+import com.domain.SpringBurne2.models.Customer;
 import com.domain.SpringBurne2.repositories.CustomerRepositoryImpl;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -75,9 +77,5 @@ public class App extends Application
 
         btnContinue.setOnAction(e -> searchWindow.searchWindow(primaryStage));
         btnNewUser.setOnAction(e -> createAccount.createAccountWindow(primaryStage));
-        btnLogin.setOnAction(e -> {
-            String email;
-            String pw;
-        });
     }
 }

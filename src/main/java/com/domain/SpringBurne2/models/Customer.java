@@ -1,8 +1,9 @@
 package com.domain.SpringBurne2.models;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Customer
+public class Customer implements Serializable
 {
     public enum Gender {M, F, O}
 
