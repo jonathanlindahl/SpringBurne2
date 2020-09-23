@@ -6,23 +6,26 @@ import com.domain.SpringBurne2.repositories.ReservationRepositoryImpl;
 import com.domain.SpringBurne2.repositories.RoomRepositoryImpl;
 import com.domain.SpringBurne2.utility.Search;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class RoomService
 {
-    public List<Room> getRooms()
+    public List<Room> getRooms() throws ParseException
     {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return filterSearch(
                 RoomRepositoryImpl.getAllRooms(),
                 // TODO: replace with actual search from GUI
                 new Search(
-                        new Date(),
-                        new Date(),
+                        sdf.parse("2020-10-03"),
+                        sdf.parse("2020-10-18"),
                         0,
                         0,
-                        true,
+                        false,
                         false,
                         false,
                         false,
@@ -120,7 +123,8 @@ public class RoomService
                             start,
                             end,
                             reservation.getStartDate(),
-                            reservation.getEndDate()));
+                            reservation.getEndDate()) &&
+                            room.getRoomId().equals(reservation.getRoomId()));
         }
         return rooms;
     }

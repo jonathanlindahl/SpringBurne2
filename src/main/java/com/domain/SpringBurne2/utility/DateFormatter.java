@@ -11,4 +11,9 @@ public class DateFormatter
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
         return formatter.format(javaDate);
     }
+    
+//    public static Date stringToDate(String stringDate)
+//    {
+//
+//    }
 }

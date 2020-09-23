@@ -72,7 +72,7 @@ public class REST
 //        Room r = parseRoom(response.thenApply(HttpResponse::body).join());
 //        return r;
 //    }
-    
+//
 //    private Customer parseRoom(String s)
 //    {
 //        String toRemove[] =
