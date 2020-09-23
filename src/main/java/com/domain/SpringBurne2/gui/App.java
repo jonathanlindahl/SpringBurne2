@@ -25,6 +25,8 @@ public class App extends Application
     @Override
     public void start(Stage primaryStage) throws IOException
     {
+        REST rest = new REST();
+        
         SearchWindow searchWindow = new SearchWindow();
         CreateAccount createAccount = new CreateAccount();
 
@@ -75,10 +77,9 @@ public class App extends Application
         primaryStage.setScene(loginScene);
         primaryStage.show();
 
-        btnContinue.setOnAction(e -> searchWindow.searchWindow(primaryStage, CustomerRepositoryImpl.getByID(1L)));
+        btnContinue.setOnAction(e -> searchWindow.searchWindow(primaryStage, rest.getCustomerByEmail("mehbleh@meh.bleh")));
         btnNewUser.setOnAction(e -> createAccount.createAccountWindow(primaryStage));
         btnLogin.setOnAction(e -> {
-            REST rest = new REST();
             Customer c = rest.getCustomerByEmail(tfEmail.getText());
             if (c != null && c.getPassword().equals(tfPassword.getText()))
             {
