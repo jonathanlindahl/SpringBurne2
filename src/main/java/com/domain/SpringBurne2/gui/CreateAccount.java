@@ -1,5 +1,7 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.gui.utility.REST;
+import com.domain.SpringBurne2.models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -38,11 +40,11 @@ public class CreateAccount
         Button btnCreate = new Button("Create");
 
         ObservableList<String> gender = FXCollections.observableArrayList(
-                "Male",
-                "Female",
-                "Other"
+                "M",
+                "F",
+                "O"
         );
-        final ComboBox cboxGender = new ComboBox(gender);
+        ComboBox cboxGender = new ComboBox(gender);
 
 
         AnchorPane.setTopAnchor(labelFName, 7.0);
@@ -90,6 +92,23 @@ public class CreateAccount
         primaryStage.show();
 
         btnBack.setOnAction(e -> {
+            try {
+                login.start(primaryStage);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
+        btnCreate.setOnAction(e -> {
+            String value = (String)cboxGender.getValue();
+            Customer c = new Customer(
+                    0L,
+                    tfFirstName.getText(),
+                    tfLastName.getText(),
+                    Customer.Gender.valueOf(value),
+                    tfEmail.getText(),
+                    tfPassword.getText());
+            REST rest = new REST();
+            rest.postUser(c);
             try {
                 login.start(primaryStage);
             } catch (IOException ioException) {

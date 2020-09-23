@@ -1,7 +1,8 @@
 package com.domain.SpringBurne2.gui.utility;
 
 import com.domain.SpringBurne2.models.Customer;
-import com.domain.SpringBurne2.models.Room;
+
+import com.google.gson.Gson;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -51,6 +52,22 @@ public class REST
                 Customer.Gender.valueOf(custParams[3]),
                 custParams[4],
                 custParams[5]);
+    }
+    
+    public String postUser(Customer c)
+    {
+        HttpRequest request = null;
+        try {
+            request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/addcustomer"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(c)))
+                    .build();
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
+        var response = HttpClient.newBuilder().build().sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        return response.thenApply(HttpResponse::body).join();
     }
     
 //    public Room getRooms()

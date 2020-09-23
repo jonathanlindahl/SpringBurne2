@@ -1,5 +1,7 @@
 package com.domain.SpringBurne2.models;
 
+import com.domain.SpringBurne2.repositories.CustomerRepositoryImpl;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -22,7 +24,8 @@ public class Customer implements Serializable
                     Gender gender,
                     String email,
                     String password) {
-        this.customerId = customerId;
+        this.customerId =
+                (customerId == 0L) ? CustomerRepositoryImpl.getAllCustomers().size() + 1 : customerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
