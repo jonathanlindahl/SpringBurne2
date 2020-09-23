@@ -50,6 +50,7 @@ public class CustomerRepositoryImpl
         try {
             connection = Connector.getConnection();
             statement = connection.createStatement();
+            //TODO search through all customer ids, if it exists, increase by 1 and try again
             String sql = String.format(
                     "INSERT INTO customer VALUES (%d, '%s', '%s', '%s', '%s', '%s')",
                     c.getCustomerId(),

@@ -133,15 +133,6 @@ public class RoomService
                                 .parse(reservation.getEndDate())))
                     it.remove();
             }
-//            rooms.removeIf(
-//                    room -> overlap(
-//                            start,
-//                            end,
-//                            new SimpleDateFormat("yyyy-MM-dd").parse(reservation
-//                                    .getStartDate()),
-//                            new SimpleDateFormat("yyyy-MM-dd").parse(reservation
-//                                    .getEndDate())) &&
-//                            room.getRoomId().equals(reservation.getRoomId()));
         }
         return rooms;
     }
