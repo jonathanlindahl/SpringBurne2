@@ -32,6 +32,12 @@ public class RoomController
     {
         return RoomRepositoryImpl.getByID(id);
     }
+    
+    @GetMapping("/getbycity")
+    public List<Room> getByCity(@RequestParam String city)
+    {
+        return RoomRepositoryImpl.getByCity(city);
+    }
 
     @PostMapping("/addroom")
     public Room addRoom(@RequestBody Room newRoom)

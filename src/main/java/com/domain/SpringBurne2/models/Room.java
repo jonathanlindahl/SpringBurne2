@@ -50,8 +50,7 @@ public class Room
         this.distanceToBeach = distanceToBeach;
         this.distanceToCenter = distanceToCenter;
     }
-
-
+    
     public Long getRoomId() { return roomId; }
     public String getName() { return name; }
     public int getRating() { return rating; }
@@ -59,11 +58,11 @@ public class Room
     public String getCity() { return city; }
     public String getDescription() { return description; }
     public int getBeds() { return beds; }
-    public boolean hasPool() { return pool; }
-    public boolean hasRestaurant() { return restaurant; }
-    public boolean hasChildClub() { return childClub; }
-    public boolean hasCentralLocation() { return centralLocation; }
-    public boolean hasSeaView() { return seaView; }
+    public boolean isPool() { return pool; }
+    public boolean isRestaurant() { return restaurant; }
+    public boolean isChildClub() { return childClub; }
+    public boolean isCentralLocation() { return centralLocation; }
+    public boolean isSeaView() { return seaView; }
     public int getDistanceToBeach() { return distanceToBeach; }
     public int getDistanceToCenter() { return distanceToCenter; }
     

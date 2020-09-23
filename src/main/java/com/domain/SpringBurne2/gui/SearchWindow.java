@@ -1,5 +1,6 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -14,6 +15,8 @@ public class SearchWindow
 {
     public void searchWindow(Stage primaryStage, Customer customer)
     {
+        REST rest = new REST();
+        
         AccountWindow accountWindow = new AccountWindow();
         BookingWindow bookingWindow = new BookingWindow();
 
@@ -66,11 +69,12 @@ public class SearchWindow
 
 
 
-        ObservableList<String> listLocations
-                = FXCollections.observableArrayList();
+        ObservableList<String> listLocations =
+                FXCollections.observableArrayList();
+        listLocations.add(rest.getRooms().toString());
         ListView<String> lvListLocations = new ListView<String>(listLocations);
-        SelectionModel<String> lvSelModel
-                = lvListLocations.getSelectionModel();
+        SelectionModel<String> lvSelModel =
+                lvListLocations.getSelectionModel();
 
 
         AnchorPane.setBottomAnchor(btnSearch, 35.0);
@@ -157,5 +161,8 @@ public class SearchWindow
 
         hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
         btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
+        btnSearch.setOnAction((e -> {
+            rest.getRooms();
+        }));
     }
 }
