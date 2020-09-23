@@ -7,14 +7,14 @@ public class Reservation
     private Long reservationId;
     private Long customerId;
     private Long roomId;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 
     public Reservation(Long reservationId,
                        Long customerId,
                        Long roomId,
-                       Date startDate,
-                       Date endDate) {
+                       String startDate,
+                       String endDate) {
         this.reservationId = reservationId;
         this.customerId = customerId;
         this.roomId = roomId;
@@ -25,8 +25,8 @@ public class Reservation
     public Long getReservationId() { return reservationId; }
     public Long getCustomerId() { return customerId; }
     public Long getRoomId() { return roomId; }
-    public Date getStartDate() { return startDate; }
-    public Date getEndDate() { return endDate; }
+    public String getStartDate() { return startDate; }
+    public String getEndDate() { return endDate; }
 
     @Override
     public String toString() {

@@ -9,6 +9,7 @@ import com.domain.SpringBurne2.utility.Search;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -112,28 +113,46 @@ public class RoomService
                         start2.getTime() <= end1.getTime();
     }
     
-    public List<Room> availableBetween(List<Room> rooms, Date start, Date end)
+    public List<Room> availableBetween(List<Room> rooms, Date start, Date end) throws ParseException
     {
         List<Reservation> reservations =
                 ReservationRepositoryImpl.getAllReservations();
         for (Reservation reservation : reservations)
         {
-            rooms.removeIf(
-                    room -> overlap(
-                            start,
-                            end,
-                            reservation.getStartDate(),
-                            reservation.getEndDate()) &&
-                            room.getRoomId().equals(reservation.getRoomId()));
+            for (Iterator<Room> it = rooms.listIterator(); it.hasNext();)
+            {
+                Room room = it.next();
+                if (
+                        reservation.getRoomId().equals(room.getRoomId())
+                        && overlap(
+                        start,
+                        end,
+                        new SimpleDateFormat("yyyy-MM-dd")
+                                .parse(reservation.getStartDate()),
+                        new SimpleDateFormat("yyyy-MM-dd")
+                                .parse(reservation.getEndDate())))
+                    it.remove();
+            }
+//            rooms.removeIf(
+//                    room -> overlap(
+//                            start,
+//                            end,
+//                            new SimpleDateFormat("yyyy-MM-dd").parse(reservation
+//                                    .getStartDate()),
+//                            new SimpleDateFormat("yyyy-MM-dd").parse(reservation
+//                                    .getEndDate())) &&
+//                            room.getRoomId().equals(reservation.getRoomId()));
         }
         return rooms;
     }
     
-    public List<Room> filterSearch(List<Room> rooms, Search s)
+    public List<Room> filterSearch(List<Room> rooms, Search s) throws ParseException
     {
         return availableBetween(
                 rooms, s.getStartDate(), s.getEndDate())
                 .stream()
+                .filter(r -> r.getDistanceToBeach() < s.getDistanceToBeach())
+                .filter(r -> r.getDistanceToCenter() < s.getDistanceToCenter())
                 .filter(r -> r.hasPool() || !s.getPool())
                 .filter(r -> r.hasRestaurant() || !s.getRestaurant())
                 .filter(r -> r.hasChildClub() || !s.getChildClub())
