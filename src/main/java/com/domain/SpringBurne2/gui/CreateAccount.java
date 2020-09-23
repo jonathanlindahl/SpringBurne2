@@ -1,7 +1,10 @@
 package com.domain.SpringBurne2.gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +37,13 @@ public class CreateAccount
         Button btnBack = new Button("Back");
         Button btnCreate = new Button("Create");
 
+        ObservableList<String> gender = FXCollections.observableArrayList(
+                "Male",
+                "Female",
+                "Other"
+        );
+        final ComboBox cboxGender = new ComboBox(gender);
+
 
         AnchorPane.setTopAnchor(labelFName, 7.0);
         AnchorPane.setLeftAnchor(labelFName, 5.0);
@@ -56,11 +66,13 @@ public class CreateAccount
         AnchorPane.setLeftAnchor(tfPassword, 75.0);
 
         AnchorPane.setTopAnchor(btnBack, 150.0);
-        AnchorPane.setLeftAnchor(btnBack,5.0);
+        AnchorPane.setRightAnchor(btnBack,65.0);
 
-        AnchorPane.setTopAnchor(btnCreate, 150.0);
-        AnchorPane.setLeftAnchor(btnCreate, 55.0);
+       AnchorPane.setTopAnchor(btnCreate, 150.0);
+        AnchorPane.setRightAnchor(btnCreate, 5.0);
 
+        AnchorPane.setLeftAnchor(cboxGender, 10.0);
+        AnchorPane.setTopAnchor(cboxGender, 150.0);
 
         createAccountWindow.getChildren().addAll(
                 labelFName,
@@ -72,7 +84,8 @@ public class CreateAccount
                 labelPassword,
                 tfPassword,
                 btnBack,
-                btnCreate);
+                btnCreate,
+                cboxGender);
         primaryStage.setScene(loginScene);
         primaryStage.show();
 
