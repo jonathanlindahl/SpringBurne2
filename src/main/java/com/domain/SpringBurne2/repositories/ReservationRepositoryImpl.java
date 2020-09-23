@@ -23,8 +23,8 @@ public class ReservationRepositoryImpl
                 rs.getLong("BookingID"),
                 rs.getLong("CustomerID"),
                 rs.getLong("RoomID"),
-                rs.getDate("StartDate"),
-                rs.getDate("EndDate"));
+                rs.getString("StartDate"),
+                rs.getString("EndDate"));
     }
 
     public static List<Reservation> getAllReservations()
@@ -76,8 +76,8 @@ public class ReservationRepositoryImpl
                     r.getReservationId(),
                     r.getCustomerId(),
                     r.getRoomId(),
-                    formatDate(r.getStartDate()),
-                    formatDate(r.getEndDate()));
+                    r.getStartDate(),
+                    r.getEndDate());
             statement.executeUpdate(sql);
             System.out.println("Added: " + r.toString());
         } catch (SQLException sqlEx) {
@@ -114,8 +114,8 @@ public class ReservationRepositoryImpl
                             "EndDate = '%s' " +
                             "WHERE BookingID = %d",
                     newReservation.getRoomId(),
-                    formatDate(newReservation.getStartDate()),
-                    formatDate(newReservation.getEndDate()),
+                    newReservation.getStartDate(),
+                    newReservation.getEndDate(),
                     r.getReservationId());
             statement.executeUpdate(sql);
             System.out.println(
