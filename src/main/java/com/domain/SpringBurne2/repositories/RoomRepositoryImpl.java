@@ -17,7 +17,7 @@ public class RoomRepositoryImpl
 
     private static Room makeRoom(ResultSet rs) throws SQLException
     {
-        return new Room(
+        Room r = new Room(
                 rs.getLong("RoomID"),
                 rs.getString("Name"),
                 rs.getInt("Rating"),
@@ -25,13 +25,15 @@ public class RoomRepositoryImpl
                 rs.getString("City"),
                 rs.getString("Description"),
                 rs.getInt("Beds"),
-                (rs.getInt("Pool") > 0),
-                (rs.getInt("Restaurant") > 0),
-                (rs.getInt("ChildClub") > 0),
-                (rs.getInt("CentralLocation") > 0),
-                (rs.getInt("SeaView") > 0),
+                rs.getBoolean("Pool"),
+                rs.getBoolean("Restaurant"),
+                rs.getBoolean("ChildClub"),
+                rs.getBoolean("CentralLocation"),
+                rs.getBoolean("SeaView"),
                 rs.getInt("DistanceToBeach"),
                 rs.getInt("DistanceToCenter"));
+        System.out.println(r.toString());
+        return r;
     }
 
     public static List<Room> getAllRooms()
@@ -70,6 +72,26 @@ public class RoomRepositoryImpl
         }
         return r;
     }
+    
+    public static List<Room> getByCity(String city)
+    {
+        List<Room> rooms = new ArrayList<>();
+        try (
+                Connection connection = Connector.getConnection();
+                PreparedStatement statement = connection.prepareStatement(
+                        String.format(
+                                "SELECT * FROM room WHERE City = '%s'",
+                                city));
+                ResultSet resultSet = statement.executeQuery()
+        ) {
+            while (resultSet != null && resultSet.next())
+                rooms.add(makeRoom(resultSet));
+        } catch (SQLException sqlEx) {
+            System.out.println("SQLException: " + sqlEx.getMessage());
+            sqlEx.printStackTrace();
+        }
+        return rooms;
+    }
 
     public static Room addRoom(Room r)
     {
@@ -90,11 +112,11 @@ public class RoomRepositoryImpl
                     r.getDescription(),
                     r.getBeds(),
                     // Casting bools to int since mysql's bools are tinyint(1).
-                    r.hasPool() ? 1 : 0,
-                    r.hasRestaurant() ? 1 : 0,
-                    r.hasChildClub() ? 1 : 0,
-                    r.hasCentralLocation() ? 1 : 0,
-                    r.hasSeaView() ? 1 : 0);
+                    r.isPool() ? 1 : 0,
+                    r.isRestaurant() ? 1 : 0,
+                    r.isChildClub() ? 1 : 0,
+                    r.isCentralLocation() ? 1 : 0,
+                    r.isSeaView() ? 1 : 0);
             statement.executeUpdate(sql);
             System.out.println("Added: " + r.toString());
         } catch (SQLException sqlEx) {

@@ -18,19 +18,20 @@ public class RoomService
     public List<Room> getRooms() throws ParseException
     {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return filterSearch(
-                RoomRepositoryImpl.getAllRooms(),
-                // TODO: replace with actual search from GUI
-                new Search(
-                        sdf.parse("2020-10-03"),
-                        sdf.parse("2020-10-18"),
-                        0,
-                        0,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false));
+//        return filterSearch(
+//                RoomRepositoryImpl.getAllRooms(),
+//                // TODO: replace with actual search from GUI
+//                new Search(
+//                        sdf.parse("2020-10-03"),
+//                        sdf.parse("2020-10-18"),
+//                        0,
+//                        0,
+//                        false,
+//                        false,
+//                        false,
+//                        false,
+//                        false));
+        return RoomRepositoryImpl.getAllRooms();
     }
     
     public List<Room> sortRoomsByPriceDescending(List<Room> rooms)
@@ -144,41 +145,41 @@ public class RoomService
                 .stream()
                 .filter(r -> r.getDistanceToBeach() < s.getDistanceToBeach())
                 .filter(r -> r.getDistanceToCenter() < s.getDistanceToCenter())
-                .filter(r -> r.hasPool() || !s.getPool())
-                .filter(r -> r.hasRestaurant() || !s.getRestaurant())
-                .filter(r -> r.hasChildClub() || !s.getChildClub())
-                .filter(r -> r.hasCentralLocation() || !s.getCentralLocation())
-                .filter(r -> r.hasSeaView() || !s.getSeaView())
+                .filter(r -> r.isPool() || !s.getPool())
+                .filter(r -> r.isRestaurant() || !s.getRestaurant())
+                .filter(r -> r.isChildClub() || !s.getChildClub())
+                .filter(r -> r.isCentralLocation() || !s.getCentralLocation())
+                .filter(r -> r.isSeaView() || !s.getSeaView())
                 .collect(Collectors.toList());
     }
     
     public List<Room> filterRoomsByPool(List<Room> rooms)
     {
-        rooms.removeIf(r -> !r.hasPool());
+        rooms.removeIf(r -> !r.isPool());
         return rooms;
     }
     
     public List<Room> filterRoomsByRestaurant(List<Room> rooms)
     {
-        rooms.removeIf(r -> !r.hasRestaurant());
+        rooms.removeIf(r -> !r.isRestaurant());
         return rooms;
     }
     
     public List<Room> filterRoomsByChildClub(List<Room> rooms)
     {
-        rooms.removeIf(r -> !r.hasChildClub());
+        rooms.removeIf(r -> !r.isChildClub());
         return rooms;
     }
     
     public List<Room> filterRoomsBySeaView(List<Room> rooms)
     {
-        rooms.removeIf(r -> !r.hasSeaView());
+        rooms.removeIf(r -> !r.isSeaView());
         return rooms;
     }
     
     public List<Room> filterRoomsByCentralLocation(List<Room> rooms)
     {
-        rooms.removeIf(r -> !r.hasCentralLocation());
+        rooms.removeIf(r -> !r.isCentralLocation());
         return rooms;
     }
     
