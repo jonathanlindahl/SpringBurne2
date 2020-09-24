@@ -2,6 +2,7 @@ package com.domain.SpringBurne2.gui;
 
 import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
+import com.domain.SpringBurne2.models.Room;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchWindow
 {
@@ -66,12 +70,9 @@ public class SearchWindow
                 4
         );
         final ComboBox cboxChildren = new ComboBox(children);
-
-
-
+        
         ObservableList<String> listLocations =
                 FXCollections.observableArrayList();
-        listLocations.add(rest.getRooms().toString());
         ListView<String> lvListLocations = new ListView<String>(listLocations);
         SelectionModel<String> lvSelModel =
                 lvListLocations.getSelectionModel();
@@ -162,7 +163,9 @@ public class SearchWindow
         hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
         btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
         btnSearch.setOnAction((e -> {
-            rest.getRooms();
+            List<Room> rooms = rest.getRooms();
+            for (Room r : rooms)
+                listLocations.add(r.toString());
         }));
     }
 }
