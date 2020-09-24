@@ -12,14 +12,11 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class REST
 {
-    // TODO: ask how to return the object instead of a String representation.
     public Customer getCustomerByEmail(String email)
     {
         HttpRequest request = null;
@@ -38,26 +35,9 @@ public class REST
                         .build()
                         .sendAsync(
                                 request, HttpResponse.BodyHandlers.ofString());
-        Customer c = parseCustomer(response.thenApply(HttpResponse::body).join());
-        return c;
-    }
-    
-    private Customer parseCustomer(String s)
-    {
-        String toRemove[] =
-                { "customerId", "firstName", "lastName", "gender", "email", "password" };
-        String customer = s.replaceAll("[{\":}]", "");
-        String custParams[] = customer.split(",");
-        for (int i = 0; i < toRemove.length; ++i)
-            if (custParams[i].contains(toRemove[i]))
-                custParams[i] = custParams[i].replace(toRemove[i], "");
-        return new Customer(
-                Long.parseLong(custParams[0]),
-                custParams[1],
-                custParams[2],
-                Customer.Gender.valueOf(custParams[3]),
-                custParams[4],
-                custParams[5]);
+        String json = response.thenApply(HttpResponse::body).join();
+        Type type = new TypeToken<Customer>(){}.getType();
+        return new Gson().fromJson(json, type);
     }
     
     public String postUser(Customer c)
@@ -80,7 +60,6 @@ public class REST
     
     public List<Room> getRooms()
     {
-        List<Room> roomList = new ArrayList<>();
         HttpRequest request = null;
         try {
             request = HttpRequest.newBuilder()
@@ -96,11 +75,7 @@ public class REST
                         .sendAsync(
                                 request, HttpResponse.BodyHandlers.ofString());
         String jsonRooms = response.thenApply(HttpResponse::body).join();
-        Gson gson = new Gson();
         Type listType = new TypeToken<List<Room>>() {}.getType();
-        ArrayList<Room> rooms = new Gson().fromJson(jsonRooms, listType);
-        for (Room r1 : rooms)
-            System.out.println(r1);
-        return rooms;
+        return new Gson().fromJson(jsonRooms, listType);
     }
 }
