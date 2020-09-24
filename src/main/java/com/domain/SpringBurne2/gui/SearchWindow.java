@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +36,6 @@ public class SearchWindow
         primaryStage.centerOnScreen();
 
         TextField tfSearch = new TextField();
-        TextField tfStartDate = new TextField();
-        TextField tfEndDate = new TextField();
         TextField tfBeachDistance = new TextField();
         TextField tfCenterDistance = new TextField();
         Button btnSearch = new Button("Search");
@@ -48,11 +47,17 @@ public class SearchWindow
         Label labelAdult = new Label("Adults: ");
         Label labelKids = new Label("Kids: ");
         Label labelName = new Label(customer.getFirstName() + " " + customer.getLastName());
+        Label labelLocation = new Label("Location: ");
         Hyperlink hlAccount = new Hyperlink("Account");
         Button btnContinue = new Button("Continue");
+        DatePicker checkInDate = new DatePicker();
+        DatePicker checkOutDate = new DatePicker();
+        Label labelFilter = new Label("Optional search filters: ");
+        Label labelBeach = new Label("Distance to beach:");
+        Label labelCenter = new Label("Distance to center: ");
         TableView roomTable = new TableView();
 
-        ObservableList<Integer> adults = FXCollections.observableArrayList(
+        ObservableList<Integer> adults = FXCollections.observableArrayList( // TODO for loop för antal ? annars lägg till fler
                 1,
                 2,
                 3,
@@ -60,7 +65,7 @@ public class SearchWindow
         );
         final ComboBox cboxAdults = new ComboBox(adults);
 
-        ObservableList<Integer> children = FXCollections.observableArrayList(
+        ObservableList<Integer> children = FXCollections.observableArrayList( //TODO samma som den ovanför
                 1,
                 2,
                 3,
@@ -101,49 +106,59 @@ public class SearchWindow
         );
 
         tfSearch.setPromptText("Location");
-        tfStartDate.setPromptText("YYYY-MM-DD START");
-        tfEndDate.setPromptText("YYYY-MM-DD END");
         tfBeachDistance.setPromptText("Distance to beach (m)");
         tfCenterDistance.setPromptText("Distance to center (m)");
-        tfSearch.setPrefWidth(230);
+        checkInDate.setPromptText("Check-in Date");
+        checkOutDate.setPromptText("Check-out date");
+        tfSearch.setPrefWidth(322);
+        checkInDate.setPrefWidth(155);
+        checkOutDate.setPrefWidth(155);
         btnSearch.setPrefWidth(75.0);
 
-        AnchorPane.setBottomAnchor(btnSearch, 35.0);
-        AnchorPane.setLeftAnchor(btnSearch, 10.0);
+        AnchorPane.setBottomAnchor(btnSearch, 50.0);
+        AnchorPane.setLeftAnchor(btnSearch, 250.0);
 
         AnchorPane.setTopAnchor(tfSearch, 35.0);
         AnchorPane.setLeftAnchor(tfSearch, 5.0);
 
-        AnchorPane.setTopAnchor(tfStartDate, 65.0);
-        AnchorPane.setLeftAnchor(tfStartDate, 5.0);
+        AnchorPane.setTopAnchor(checkInDate, 65.0);
+        AnchorPane.setLeftAnchor(checkInDate, 5.0);
 
-        AnchorPane.setTopAnchor(tfEndDate, 95.0);
-        AnchorPane.setLeftAnchor(tfEndDate, 5.0);
+        AnchorPane.setTopAnchor(checkOutDate, 65.0);
+        AnchorPane.setLeftAnchor(checkOutDate, 170.0);
 
-        AnchorPane.setTopAnchor(tfBeachDistance, 300.0);
-        AnchorPane.setLeftAnchor(tfBeachDistance, 5.0);
+        AnchorPane.setTopAnchor(labelFilter, 180.0);
+        AnchorPane.setLeftAnchor(labelFilter, 5.0);
 
-        AnchorPane.setTopAnchor(tfCenterDistance, 270.0);
-        AnchorPane.setLeftAnchor(tfCenterDistance, 5.0);
-
-        AnchorPane.setTopAnchor(cbPool, 180.0);
+        AnchorPane.setTopAnchor(cbPool, 200.0);
         AnchorPane.setLeftAnchor(cbPool, 5.0);
-
-        AnchorPane.setTopAnchor(cbRestaurant, 180.0);
-        AnchorPane.setLeftAnchor(cbRestaurant, 55.0);
-
-        AnchorPane.setTopAnchor(cbChildrensClub, 205.0);
-        AnchorPane.setLeftAnchor(cbChildrensClub, 5.0);
-
-        AnchorPane.setTopAnchor(cbSeaView, 205.0);
-        AnchorPane.setLeftAnchor(cbSeaView, 110.0);
-
-        AnchorPane.setTopAnchor(cbNightLife, 235.0);
+        AnchorPane.setTopAnchor(cbRestaurant, 220.0);
+        AnchorPane.setLeftAnchor(cbRestaurant, 80.0);
+        AnchorPane.setTopAnchor(cbChildrensClub, 200.0);
+        AnchorPane.setLeftAnchor(cbChildrensClub, 55.0);
+        AnchorPane.setTopAnchor(cbSeaView, 220.0);
+        AnchorPane.setLeftAnchor(cbSeaView, 5.0);
+        AnchorPane.setTopAnchor(cbNightLife, 240.0);
         AnchorPane.setLeftAnchor(cbNightLife, 5.0);
-        AnchorPane.setTopAnchor(cboxAdults, 150.0);
+
+        AnchorPane.setTopAnchor(labelBeach,200.0);
+        AnchorPane.setLeftAnchor(labelBeach, 170.0);
+        AnchorPane.setTopAnchor(tfBeachDistance, 220.0);
+        AnchorPane.setLeftAnchor(tfBeachDistance, 170.0);
+
+        AnchorPane.setTopAnchor(labelCenter, 250.0);
+        AnchorPane.setLeftAnchor(labelCenter,170.0);
+        AnchorPane.setTopAnchor(tfCenterDistance, 270.0);
+        AnchorPane.setLeftAnchor(tfCenterDistance, 170.0);
+
+        AnchorPane.setTopAnchor(labelAdult, 95.0);
+        AnchorPane.setLeftAnchor(labelAdult, 5.0);
+        AnchorPane.setTopAnchor(cboxAdults, 115.0);
         AnchorPane.setLeftAnchor(cboxAdults, 5.0);
 
-        AnchorPane.setTopAnchor(cboxChildren, 150.0);
+        AnchorPane.setTopAnchor(labelKids, 95.0);
+        AnchorPane.setLeftAnchor(labelKids, 75.0);
+        AnchorPane.setTopAnchor(cboxChildren, 115.0);
         AnchorPane.setLeftAnchor(cboxChildren, 75.0);
 
         AnchorPane.setTopAnchor(roomTable, 5.0);
@@ -151,26 +166,22 @@ public class SearchWindow
         AnchorPane.setBottomAnchor(roomTable, 50.0);
         AnchorPane.setRightAnchor(roomTable, 5.0);
 
-        AnchorPane.setTopAnchor(labelAdult, 130.0);
-        AnchorPane.setLeftAnchor(labelAdult, 5.0);
-
-        AnchorPane.setTopAnchor(labelKids, 130.0);
-        AnchorPane.setLeftAnchor(labelKids, 75.0);
-
         AnchorPane.setTopAnchor(labelName, 5.0);
-        AnchorPane.setLeftAnchor(labelName, 5.0);
+        //AnchorPane.setLeftAnchor(labelName, 230.0);
+        AnchorPane.setRightAnchor(labelName, 652.0); //TODO testa med ett långt namn
 
-        AnchorPane.setTopAnchor(hlAccount, 14.0);
-        AnchorPane.setLeftAnchor(hlAccount, 2.0);
+        AnchorPane.setTopAnchor(hlAccount, 12.0);
+        AnchorPane.setLeftAnchor(hlAccount, 280.0);
 
         AnchorPane.setBottomAnchor(btnContinue, 5.0);
         AnchorPane.setRightAnchor(btnContinue, 5.0);
 
+        AnchorPane.setTopAnchor(labelLocation, 15.0);
+        AnchorPane.setLeftAnchor(labelLocation, 5.0);
+
         searchWindow.getChildren().addAll(
                 btnSearch,
                 tfSearch,
-                tfStartDate,
-                tfEndDate,
                 cbPool,
                 cbRestaurant,
                 cbChildrensClub,
@@ -185,7 +196,13 @@ public class SearchWindow
                 btnContinue,
                 tfBeachDistance,
                 tfCenterDistance,
-                roomTable);
+                roomTable,
+                labelLocation,
+                checkInDate,
+                checkOutDate,
+                labelFilter,
+                labelBeach,
+                labelCenter);
         primaryStage.setScene(searchScene);
         primaryStage.show();
 
