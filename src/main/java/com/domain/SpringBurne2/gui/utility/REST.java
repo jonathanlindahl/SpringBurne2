@@ -58,6 +58,7 @@ public class REST
         return response.thenApply(HttpResponse::body).join();
     }
     
+    // TODO: add Search object parameter
     public List<Room> getRooms()
     {
         HttpRequest request = null;

@@ -70,14 +70,9 @@ public class SearchWindow
                 4
         );
         final ComboBox cboxChildren = new ComboBox(children);
-
-
-
+        
         ObservableList<String> listLocations =
                 FXCollections.observableArrayList();
-        List<Room> rooms = rest.getRooms();
-        for (Room r : rooms)
-            listLocations.add(r.toString());
         ListView<String> lvListLocations = new ListView<String>(listLocations);
         SelectionModel<String> lvSelModel =
                 lvListLocations.getSelectionModel();
@@ -168,7 +163,9 @@ public class SearchWindow
         hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
         btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
         btnSearch.setOnAction((e -> {
-            rest.getRooms();
+            List<Room> rooms = rest.getRooms();
+            for (Room r : rooms)
+                listLocations.add(r.toString());
         }));
     }
 }
