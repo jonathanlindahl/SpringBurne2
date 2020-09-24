@@ -27,7 +27,6 @@ public class BookingWindow
 
 
         primaryStage.setTitle("SpringBurne");
-
         AnchorPane bookingWindow = new AnchorPane();
         Scene bookingScene = new Scene(bookingWindow, 650, 450);
         bookingWindow.setPadding(new Insets(10, 10, 10, 10));

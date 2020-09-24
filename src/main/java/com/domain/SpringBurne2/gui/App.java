@@ -25,7 +25,6 @@ public class App extends Application
     public void start(Stage primaryStage) throws IOException
     {
         REST rest = new REST();
-        
         SearchWindow searchWindow = new SearchWindow();
         CreateAccount createAccount = new CreateAccount();
 
@@ -35,17 +34,17 @@ public class App extends Application
         loginWindow.setPadding(new Insets(10, 10, 10, 10));
 
         TextField tfEmail = new TextField();
-        tfEmail.setPromptText("Email");
-        tfEmail.setPrefWidth(200);
         Label labelEmail = new Label("Email: ");
         TextField tfPassword = new TextField();
-        tfPassword.setPrefWidth(200);
-        tfPassword.setPromptText("Password");
         Label labelPassword = new Label("Password: ");
-        
         Button btnLogin = new Button("login");
         Button btnNewUser = new Button("New user");
         Button btnContinue = new Button("Continue without logging in");
+
+        tfEmail.setPromptText("Email");
+        tfEmail.setPrefWidth(200);
+        tfPassword.setPromptText("Password");
+        tfPassword.setPrefWidth(200);
 
         AnchorPane.setTopAnchor(btnLogin, 80.0);
         AnchorPane.setLeftAnchor(btnLogin, 125.0);

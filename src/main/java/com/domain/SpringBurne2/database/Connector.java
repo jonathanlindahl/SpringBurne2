@@ -50,7 +50,7 @@ public class Connector
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/springburnetest?serverTimezone=UTC",
                     "root",
-                    "");
+                    "fanvadjobbigt");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());

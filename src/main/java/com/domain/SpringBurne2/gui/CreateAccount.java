@@ -4,6 +4,7 @@ import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -22,16 +23,13 @@ public class CreateAccount
 
         primaryStage.setTitle("SpringBurne");
         AnchorPane createAccountWindow = new AnchorPane();
-        Scene loginScene = new Scene(createAccountWindow, 300,200);
+        Scene createScene = new Scene(createAccountWindow, 300,200);
+        createAccountWindow.setPadding(new Insets(10, 10, 10, 10));
 
         TextField tfFirstName = new TextField();
-        tfFirstName.setPromptText("First name");
         TextField tfLastName = new TextField();
-        tfLastName.setPromptText("Last name");
         TextField tfEmail = new TextField();
-        tfEmail.setPromptText("E-mail");
         TextField tfPassword = new TextField();
-        tfPassword.setPromptText("Password");
         Label labelFName = new Label("First name: ");
         Label labelLName = new Label("Last name: ");
         Label labelEmail = new Label("Email: ");
@@ -46,6 +44,10 @@ public class CreateAccount
         );
         ComboBox cboxGender = new ComboBox(gender);
 
+        tfFirstName.setPromptText("First name");
+        tfLastName.setPromptText("Last name");
+        tfEmail.setPromptText("E-mail");
+        tfPassword.setPromptText("Password");
 
         AnchorPane.setTopAnchor(labelFName, 7.0);
         AnchorPane.setLeftAnchor(labelFName, 5.0);
@@ -88,7 +90,7 @@ public class CreateAccount
                 btnBack,
                 btnCreate,
                 cboxGender);
-        primaryStage.setScene(loginScene);
+        primaryStage.setScene(createScene);
         primaryStage.show();
 
         btnBack.setOnAction(e -> {

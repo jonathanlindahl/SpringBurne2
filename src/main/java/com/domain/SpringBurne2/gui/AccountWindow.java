@@ -23,9 +23,7 @@ public class AccountWindow
         REST rest = new REST();
         
         primaryStage.setTitle("SpringBurne");
-
         SearchWindow searchWindow = new SearchWindow();
-
         AnchorPane accountWindow = new AnchorPane();
         Scene accountScene = new Scene(accountWindow, 550, 350);
         accountWindow.setPadding(new Insets(10, 10, 10, 10));
