@@ -9,6 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,30 +26,19 @@ public class SearchWindow
     public void searchWindow(Stage primaryStage, Customer customer)
     {
         REST rest = new REST();
-
         AccountWindow accountWindow = new AccountWindow();
         BookingWindow bookingWindow = new BookingWindow();
 
         primaryStage.setTitle("SpringBurne");
-
         AnchorPane searchWindow = new AnchorPane();
-        Scene searchScene = new Scene(searchWindow, 650, 450);
+        Scene searchScene = new Scene(searchWindow, 1000, 450);
         searchWindow.setPadding(new Insets(10, 10, 10, 10));
         primaryStage.centerOnScreen();
 
         TextField tfSearch = new TextField();
-        tfSearch.setPromptText("Location");
-        tfSearch.setPrefWidth(230);
-        TextField tfStartDate = new TextField();
-        tfStartDate.setPromptText("YYYY-MM-DD START");
-        TextField tfEndDate = new TextField();
-        tfEndDate.setPromptText("YYYY-MM-DD END");
         TextField tfBeachDistance = new TextField();
-        tfBeachDistance.setPromptText("Distance to beach (m)");
         TextField tfCenterDistance = new TextField();
-        tfCenterDistance.setPromptText("Distance to center (m)");
         Button btnSearch = new Button("Search");
-        btnSearch.setPrefWidth(75.0);
         CheckBox cbPool = new CheckBox("Pool");
         CheckBox cbRestaurant = new CheckBox("Restaurant");
         CheckBox cbChildrensClub = new CheckBox("Children's club");
@@ -55,11 +46,18 @@ public class SearchWindow
         CheckBox cbNightLife = new CheckBox("Night Life");
         Label labelAdult = new Label("Adults: ");
         Label labelKids = new Label("Kids: ");
-        Label labelName = new Label(customer.getFirstName() + " " + customer.getLastName()); //TODO: kod för namn behvövs
+        Label labelName = new Label(customer.getFirstName() + " " + customer.getLastName());
+        Label labelLocation = new Label("Location: ");
         Hyperlink hlAccount = new Hyperlink("Account");
         Button btnContinue = new Button("Continue");
+        DatePicker checkInDate = new DatePicker();
+        DatePicker checkOutDate = new DatePicker();
+        Label labelFilter = new Label("Optional search filters: ");
+        Label labelBeach = new Label("Distance to beach:");
+        Label labelCenter = new Label("Distance to center: ");
+        TableView roomTable = new TableView();
 
-        ObservableList<Integer> adults = FXCollections.observableArrayList(
+        ObservableList<Integer> adults = FXCollections.observableArrayList( // TODO for loop för antal ? annars lägg till fler
                 1,
                 2,
                 3,
@@ -67,21 +65,13 @@ public class SearchWindow
         );
         final ComboBox cboxAdults = new ComboBox(adults);
 
-        ObservableList<Integer> children = FXCollections.observableArrayList(
+        ObservableList<Integer> children = FXCollections.observableArrayList( //TODO samma som den ovanför
                 1,
                 2,
                 3,
                 4
         );
         final ComboBox cboxChildren = new ComboBox(children);
-
-        //ObservableList<String> listLocations =
-        //        FXCollections.observableArrayList();
-        //ListView<String> lvListLocations = new ListView<String>(listLocations);
-        //SelectionModel<String> lvSelModel =
-        //        lvListLocations.getSelectionModel();
-
-        TableView roomTable = new TableView();
 
         TableColumn<Room, Long> roomId = new TableColumn<>("Room ID");
         TableColumn<Room, String> roomName = new TableColumn<>("Name");
@@ -90,12 +80,13 @@ public class SearchWindow
         TableColumn<Room, String> city = new TableColumn<>("City");
         TableColumn<Room, String> description = new TableColumn<>("Description");
         TableColumn<Room, Integer> beds = new TableColumn<>("beds");
-        //TableColumn<Boolean, Room> bool1 = new TableColumn<>("bool1");
-        //TableColumn<Boolean, Room> bool2 = new TableColumn<>("bool1");
-        //TableColumn<Boolean, Room> bool3 = new TableColumn<>("bool1");
-        //TableColumn<Boolean, Room> bool4 = new TableColumn<>("bool1");
-        //TableColumn<Boolean, Room> bool5 = new TableColumn<>("bool1");
-
+        TableColumn<Room, Boolean> pool = new TableColumn<>("Pool");
+        TableColumn<Room, Boolean> restaurant = new TableColumn<>("Restaurant");
+        TableColumn<Room, Boolean> childrensClub = new TableColumn<>("Children's Club");
+        TableColumn<Room, Boolean> centralLocation = new TableColumn<>("Central Location");
+        TableColumn<Room, Boolean> seaView = new TableColumn<>("Sea View");
+        TableColumn<Room, Integer> distanceToBeach = new TableColumn<>("Distance to beach");
+        TableColumn<Room, Integer> distanceToCenter = new TableColumn<>("Distance to center");
 
         roomTable.getColumns().addAll(
                 roomId,
@@ -104,85 +95,99 @@ public class SearchWindow
                 priceRange,
                 city,
                 description,
-                beds
-                // bool1,
-                // bool2,
-                // bool3,
-                // bool4,
-                // bool5
+                beds,
+                pool,
+                restaurant,
+                childrensClub,
+                centralLocation,
+                seaView,
+                distanceToBeach,
+                distanceToCenter
         );
-        
-        AnchorPane.setBottomAnchor(btnSearch, 35.0);
-        AnchorPane.setLeftAnchor(btnSearch, 10.0);
+
+        tfSearch.setPromptText("Location");
+        tfBeachDistance.setPromptText("Distance to beach (m)");
+        tfCenterDistance.setPromptText("Distance to center (m)");
+        checkInDate.setPromptText("Check-in Date");
+        checkOutDate.setPromptText("Check-out date");
+        tfSearch.setPrefWidth(322);
+        checkInDate.setPrefWidth(155);
+        checkOutDate.setPrefWidth(155);
+        btnSearch.setPrefWidth(75.0);
+
+        AnchorPane.setBottomAnchor(btnSearch, 50.0);
+        AnchorPane.setLeftAnchor(btnSearch, 250.0);
 
         AnchorPane.setTopAnchor(tfSearch, 35.0);
         AnchorPane.setLeftAnchor(tfSearch, 5.0);
-        // AnchorPane.setRightAnchor(tfSearch, 290.0);
 
-        AnchorPane.setTopAnchor(tfStartDate, 65.0);
-        AnchorPane.setLeftAnchor(tfStartDate, 5.0);
+        AnchorPane.setTopAnchor(checkInDate, 65.0);
+        AnchorPane.setLeftAnchor(checkInDate, 5.0);
 
-        AnchorPane.setTopAnchor(tfEndDate, 95.0);
-        AnchorPane.setLeftAnchor(tfEndDate, 5.0);
+        AnchorPane.setTopAnchor(checkOutDate, 65.0);
+        AnchorPane.setLeftAnchor(checkOutDate, 170.0);
 
-        AnchorPane.setTopAnchor(tfBeachDistance, 300.0);
-        AnchorPane.setLeftAnchor(tfBeachDistance, 5.0);
+        AnchorPane.setTopAnchor(labelFilter, 180.0);
+        AnchorPane.setLeftAnchor(labelFilter, 5.0);
 
-        AnchorPane.setTopAnchor(tfCenterDistance, 270.0);
-        AnchorPane.setLeftAnchor(tfCenterDistance, 5.0);
-
-        AnchorPane.setTopAnchor(cbPool, 180.0);
+        AnchorPane.setTopAnchor(cbPool, 200.0);
         AnchorPane.setLeftAnchor(cbPool, 5.0);
-
-        AnchorPane.setTopAnchor(cbRestaurant, 180.0);
-        AnchorPane.setLeftAnchor(cbRestaurant, 55.0);
-
-        AnchorPane.setTopAnchor(cbChildrensClub, 205.0);
-        AnchorPane.setLeftAnchor(cbChildrensClub, 5.0);
-
-        AnchorPane.setTopAnchor(cbSeaView, 205.0);
-        AnchorPane.setLeftAnchor(cbSeaView, 110.0);
-
-        AnchorPane.setTopAnchor(cbNightLife, 235.0);
+        AnchorPane.setTopAnchor(cbRestaurant, 220.0);
+        AnchorPane.setLeftAnchor(cbRestaurant, 80.0);
+        AnchorPane.setTopAnchor(cbChildrensClub, 200.0);
+        AnchorPane.setLeftAnchor(cbChildrensClub, 55.0);
+        AnchorPane.setTopAnchor(cbSeaView, 220.0);
+        AnchorPane.setLeftAnchor(cbSeaView, 5.0);
+        AnchorPane.setTopAnchor(cbNightLife, 240.0);
         AnchorPane.setLeftAnchor(cbNightLife, 5.0);
-        AnchorPane.setTopAnchor(cboxAdults, 150.0);
+
+        AnchorPane.setTopAnchor(labelBeach,200.0);
+        AnchorPane.setLeftAnchor(labelBeach, 170.0);
+        AnchorPane.setTopAnchor(tfBeachDistance, 220.0);
+        AnchorPane.setLeftAnchor(tfBeachDistance, 170.0);
+
+        AnchorPane.setTopAnchor(labelCenter, 250.0);
+        AnchorPane.setLeftAnchor(labelCenter,170.0);
+        AnchorPane.setTopAnchor(tfCenterDistance, 270.0);
+        AnchorPane.setLeftAnchor(tfCenterDistance, 170.0);
+
+        AnchorPane.setTopAnchor(labelAdult, 95.0);
+        AnchorPane.setLeftAnchor(labelAdult, 5.0);
+        AnchorPane.setTopAnchor(cboxAdults, 115.0);
         AnchorPane.setLeftAnchor(cboxAdults, 5.0);
 
-        AnchorPane.setTopAnchor(cboxChildren, 150.0);
+        AnchorPane.setTopAnchor(labelKids, 95.0);
+        AnchorPane.setLeftAnchor(labelKids, 75.0);
+        AnchorPane.setTopAnchor(cboxChildren, 115.0);
         AnchorPane.setLeftAnchor(cboxChildren, 75.0);
 
         AnchorPane.setTopAnchor(roomTable, 5.0);
-        AnchorPane.setLeftAnchor(roomTable, 250.0);
+        AnchorPane.setLeftAnchor(roomTable, 335.0);
         AnchorPane.setBottomAnchor(roomTable, 50.0);
         AnchorPane.setRightAnchor(roomTable, 5.0);
 
-        AnchorPane.setTopAnchor(labelAdult, 130.0);
-        AnchorPane.setLeftAnchor(labelAdult, 5.0);
-
-        AnchorPane.setTopAnchor(labelKids, 130.0);
-        AnchorPane.setLeftAnchor(labelKids, 75.0);
-
         AnchorPane.setTopAnchor(labelName, 5.0);
-        AnchorPane.setLeftAnchor(labelName, 5.0);
+        //AnchorPane.setLeftAnchor(labelName, 230.0);
+        AnchorPane.setRightAnchor(labelName, 652.0); //TODO testa med ett långt namn
 
-        AnchorPane.setTopAnchor(hlAccount, 14.0);
-        AnchorPane.setLeftAnchor(hlAccount, 2.0);
+        AnchorPane.setTopAnchor(hlAccount, 12.0);
+        AnchorPane.setLeftAnchor(hlAccount, 280.0);
 
         AnchorPane.setBottomAnchor(btnContinue, 5.0);
         AnchorPane.setRightAnchor(btnContinue, 5.0);
 
+        AnchorPane.setTopAnchor(labelLocation, 15.0);
+        AnchorPane.setLeftAnchor(labelLocation, 5.0);
+
         searchWindow.getChildren().addAll(
                 btnSearch,
                 tfSearch,
-                tfStartDate,
-                tfEndDate,
                 cbPool,
                 cbRestaurant,
                 cbChildrensClub,
                 cbNightLife,
                 cbSeaView,
                 cboxAdults,
-                //lvListLocations,
                 labelAdult,
                 cboxChildren,
                 labelKids,
@@ -191,7 +196,13 @@ public class SearchWindow
                 btnContinue,
                 tfBeachDistance,
                 tfCenterDistance,
-                roomTable);
+                roomTable,
+                labelLocation,
+                checkInDate,
+                checkOutDate,
+                labelFilter,
+                labelBeach,
+                labelCenter);
         primaryStage.setScene(searchScene);
         primaryStage.show();
 
@@ -221,6 +232,20 @@ public class SearchWindow
                         new PropertyValueFactory<Room, String>("Description"));
                 beds.setCellValueFactory(
                         new PropertyValueFactory<Room, Integer>("Beds"));
+                pool.setCellValueFactory(
+                        new PropertyValueFactory<Room, Boolean>("Pool"));
+                restaurant.setCellValueFactory(
+                        new PropertyValueFactory<Room, Boolean>("Restaurant"));
+                childrensClub.setCellValueFactory(
+                        new PropertyValueFactory<Room, Boolean>("ChildClub"));
+                centralLocation.setCellValueFactory(
+                        new PropertyValueFactory<Room, Boolean>("CentralLocation"));
+                seaView.setCellValueFactory(
+                        new PropertyValueFactory<Room, Boolean>("SeaView"));
+                distanceToBeach.setCellValueFactory(
+                        new PropertyValueFactory<Room, Integer>("DistanceToBeach"));
+                distanceToBeach.setCellValueFactory(
+                        new PropertyValueFactory<Room, Integer>("DistanceToCenter")); //TODO Skriver inte ut
                 roomTable.getItems().add(room);
             }
         }));

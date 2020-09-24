@@ -27,7 +27,6 @@ public class BookingWindow
 
 
         primaryStage.setTitle("SpringBurne");
-
         AnchorPane bookingWindow = new AnchorPane();
         Scene bookingScene = new Scene(bookingWindow, 650, 450);
         bookingWindow.setPadding(new Insets(10, 10, 10, 10));
@@ -66,7 +65,7 @@ public class BookingWindow
         );
         final ComboBox cboxCrib = new ComboBox(cribs);
 
-        CheckBox cbHalfBoard = new CheckBox("Half board");
+        CheckBox cbHalfBoard = new CheckBox("Half board"); // TODO radio buttons
         CheckBox cbFullBoard = new CheckBox("Full board");
         CheckBox cbAllInclusive = new CheckBox("All inclusive");
 
@@ -103,7 +102,7 @@ public class BookingWindow
         AnchorPane.setLeftAnchor(cbAllInclusive, 5.0);
 
         AnchorPane.setTopAnchor(labelName,5.0);
-        AnchorPane.setLeftAnchor(labelName, 250.0);
+        AnchorPane.setLeftAnchor(labelName, 270.0);
 
         AnchorPane.setTopAnchor(imageView, 25.0);
         AnchorPane.setLeftAnchor(imageView, 270.0);
