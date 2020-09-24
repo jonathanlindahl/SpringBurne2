@@ -1,5 +1,6 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +14,8 @@ public class AccountWindow
 {
     public void accountWindow(Stage primaryStage, Customer customer)
     {
+        REST rest = new REST();
+        
         primaryStage.setTitle("SpringBurne");
 
         SearchWindow searchWindow = new SearchWindow();
@@ -23,25 +26,25 @@ public class AccountWindow
         primaryStage.centerOnScreen();
 
         TextField tfFName = new TextField();
-        Label labelFName = new Label("Namn"); // kod för namn
+        Label labelFName = new Label(customer.getFirstName()); // kod för namn
         tfFName.setDisable(true);
         tfFName.setVisible(false);
         labelFName.setVisible(true);
 
         TextField tfLName = new TextField();
-        Label labelLName = new Label("Efternamn"); // kod för efternamn
+        Label labelLName = new Label(customer.getLastName()); // kod för efternamn
         tfLName.setDisable(true);
         tfLName.setVisible(false);
         labelLName.setVisible(true);
 
         TextField tfEmail = new TextField();
-        Label labelEmail = new Label("Email@email.com"); // kod för email
+        Label labelEmail = new Label(customer.getEmail()); // kod för email
         tfEmail.setDisable(true);
         tfEmail.setVisible(false);
         labelEmail.setVisible(true);
 
         TextField tfPassword = new TextField();
-        Label labelPassword = new Label("********"); // kod för lösenord
+        Label labelPassword = new Label(customer.getPassword()); // kod för lösenord
         tfPassword.setDisable(true);
         tfPassword.setVisible(false);
         labelPassword.setVisible(true);
@@ -159,6 +162,27 @@ public class AccountWindow
         });
 
         btnSave.setOnAction(event -> {
+            if (!tfFName.getText().trim().isEmpty())
+            {
+                customer.setFirstName(tfFName.getText());
+                labelFName.setText(customer.getFirstName());
+            }
+            if (!tfLName.getText().trim().isEmpty())
+            {
+                customer.setLastName(tfLName.getText());
+                labelLName.setText(customer.getLastName());
+            }
+            if (!tfEmail.getText().trim().isEmpty())
+            {
+                customer.setEmail(tfEmail.getText());
+                labelEmail.setText(customer.getEmail());
+            }
+            if (!tfPassword.getText().trim().isEmpty())
+            {
+                customer.setPassword(tfPassword.getText());
+                labelPassword.setText(customer.getPassword());
+            }
+            rest.updateUser(customer);
             tfFName.setDisable(true);
             tfFName.setVisible(false);
             labelFName.setVisible(true);

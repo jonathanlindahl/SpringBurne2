@@ -4,6 +4,7 @@ import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
 import com.domain.SpringBurne2.models.Room;
 import javafx.application.Application;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -110,24 +111,7 @@ public class SearchWindow
                 // bool4,
                 // bool5
         );
-        roomId.setCellValueFactory(new PropertyValueFactory<Room, Long>("roomId"));
-        roomName.setCellValueFactory(new PropertyValueFactory<Room, String>("Name"));
-        rating.setCellValueFactory(new PropertyValueFactory<Room, Integer>("Rating"));
-        priceRange.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Room, Room.priceRange>, ObservableValue<Room.priceRange>>()
-                                       {
-                                           @Override
-                                           public ObservableValue<Room.priceRange> call(TableColumn.CellDataFeatures<Room, Room.priceRange> param)
-                                           {
-                                               return null;
-                                           }
-                                       });
-                city.setCellValueFactory(new PropertyValueFactory<Room, String>("City"));
-        description.setCellValueFactory(new PropertyValueFactory<Room, String>("Description"));
-        beds.setCellValueFactory(new PropertyValueFactory<Room, Integer>("Beds"));
-        //List<Room> rooms = rest.getRooms();
-        roomTable.getItems().add(new Room(1L, "test", 5, Room.priceRange.HIGH, "Stad", "tlkadklaslk", 2, true, false, true, false, true, 99, 1));
-        roomTable.getItems().add(new Room(2L, "En liten båt", 1, Room.priceRange.HIGH, "Öresund", "vi vet alla vad som pågår här", 1, true, false, true, false, true, 99, 1));
-
+        
         AnchorPane.setBottomAnchor(btnSearch, 35.0);
         AnchorPane.setLeftAnchor(btnSearch, 10.0);
 
@@ -213,10 +197,32 @@ public class SearchWindow
 
         hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
         btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
-        //    btnSearch.setOnAction((e -> {
-        //        List<Room> rooms = rest.getRooms();
-        //        for (Room r : rooms)
-        //            listLocations.add(r.toString());
-        //    }));
+        btnSearch.setOnAction((e -> {
+            List<Room> rooms = rest.getRooms();
+            for (Room room : rooms) {
+                roomId.setCellValueFactory(
+                        new PropertyValueFactory<Room, Long>("roomId"));
+                roomName.setCellValueFactory(
+                        new PropertyValueFactory<Room, String>("Name"));
+                rating.setCellValueFactory(
+                        new PropertyValueFactory<Room, Integer>("Rating"));
+                priceRange.setCellValueFactory(
+                        param -> {
+                            Room r = param.getValue();
+                            String s = Room.priceRange.valueOf(
+                                    r.getRange().toString())
+                                    .toString();
+                            Room.priceRange pr = Room.priceRange.valueOf(s);
+                            return new SimpleObjectProperty<>(pr);
+                        });
+                city.setCellValueFactory(
+                        new PropertyValueFactory<Room, String>("City"));
+                description.setCellValueFactory(
+                        new PropertyValueFactory<Room, String>("Description"));
+                beds.setCellValueFactory(
+                        new PropertyValueFactory<Room, Integer>("Beds"));
+                roomTable.getItems().add(room);
+            }
+        }));
     }
 }

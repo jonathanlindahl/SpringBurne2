@@ -58,6 +58,26 @@ public class REST
         return response.thenApply(HttpResponse::body).join();
     }
     
+    public String updateUser(Customer c)
+    {
+        HttpRequest request = null;
+        try {
+            request = HttpRequest.newBuilder()
+                    .uri(new URI(
+                            String.format("http://localhost:8080/updatecustomer?id=%d",
+                                    c.getCustomerId())))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(new Gson().toJson(c)))
+                    .build();
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
+        var response =
+                HttpClient.newBuilder().build().sendAsync(
+                        request, HttpResponse.BodyHandlers.ofString());
+        return response.thenApply(HttpResponse::body).join();
+    }
+    
     // TODO: add Search object parameter
     public List<Room> getRooms()
     {
