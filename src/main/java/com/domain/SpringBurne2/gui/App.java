@@ -77,12 +77,8 @@ public class App extends Application
         primaryStage.setScene(loginScene);
         primaryStage.show();
 
-        btnContinue.setOnAction(e ->
-                searchWindow.searchWindow(
-                        primaryStage,
-                        rest.getCustomerByEmail("mehbleh@meh.bleh")));
-        btnNewUser.setOnAction(e ->
-                createAccount.createAccountWindow(primaryStage));
+        btnContinue.setOnAction(e -> searchWindow.searchWindow(primaryStage, rest.getCustomerByEmail("mehbleh@meh.bleh")));
+        btnNewUser.setOnAction(e -> createAccount.createAccountWindow(primaryStage));
         btnLogin.setOnAction(e -> {
             Customer c = rest.getCustomerByEmail(tfEmail.getText());
             if (c != null && c.getPassword().equals(tfPassword.getText()))

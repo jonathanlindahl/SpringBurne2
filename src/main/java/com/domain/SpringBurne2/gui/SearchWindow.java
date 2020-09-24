@@ -4,13 +4,16 @@ import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
 import com.domain.SpringBurne2.models.Room;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +23,7 @@ public class SearchWindow
     public void searchWindow(Stage primaryStage, Customer customer)
     {
         REST rest = new REST();
-        
+
         AccountWindow accountWindow = new AccountWindow();
         BookingWindow bookingWindow = new BookingWindow();
 
@@ -70,13 +73,60 @@ public class SearchWindow
                 4
         );
         final ComboBox cboxChildren = new ComboBox(children);
-        
-        ObservableList<String> listLocations =
-                FXCollections.observableArrayList();
-        ListView<String> lvListLocations = new ListView<String>(listLocations);
-        SelectionModel<String> lvSelModel =
-                lvListLocations.getSelectionModel();
 
+        //ObservableList<String> listLocations =
+        //        FXCollections.observableArrayList();
+        //ListView<String> lvListLocations = new ListView<String>(listLocations);
+        //SelectionModel<String> lvSelModel =
+        //        lvListLocations.getSelectionModel();
+
+        TableView roomTable = new TableView();
+
+        TableColumn<Room, Long> roomId = new TableColumn<>("Room ID");
+        TableColumn<Room, String> roomName = new TableColumn<>("Name");
+        TableColumn<Room, Integer> rating = new TableColumn<>("Rating");
+        TableColumn<Room, Room.priceRange> priceRange = new TableColumn<>("Price Range");
+        TableColumn<Room, String> city = new TableColumn<>("City");
+        TableColumn<Room, String> description = new TableColumn<>("Description");
+        TableColumn<Room, Integer> beds = new TableColumn<>("beds");
+        //TableColumn<Boolean, Room> bool1 = new TableColumn<>("bool1");
+        //TableColumn<Boolean, Room> bool2 = new TableColumn<>("bool1");
+        //TableColumn<Boolean, Room> bool3 = new TableColumn<>("bool1");
+        //TableColumn<Boolean, Room> bool4 = new TableColumn<>("bool1");
+        //TableColumn<Boolean, Room> bool5 = new TableColumn<>("bool1");
+
+
+        roomTable.getColumns().addAll(
+                roomId,
+                roomName,
+                rating,
+                priceRange,
+                city,
+                description,
+                beds
+                // bool1,
+                // bool2,
+                // bool3,
+                // bool4,
+                // bool5
+        );
+        roomId.setCellValueFactory(new PropertyValueFactory<Room, Long>("roomId"));
+        roomName.setCellValueFactory(new PropertyValueFactory<Room, String>("Name"));
+        rating.setCellValueFactory(new PropertyValueFactory<Room, Integer>("Rating"));
+        priceRange.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Room, Room.priceRange>, ObservableValue<Room.priceRange>>()
+                                       {
+                                           @Override
+                                           public ObservableValue<Room.priceRange> call(TableColumn.CellDataFeatures<Room, Room.priceRange> param)
+                                           {
+                                               return null;
+                                           }
+                                       });
+                city.setCellValueFactory(new PropertyValueFactory<Room, String>("City"));
+        description.setCellValueFactory(new PropertyValueFactory<Room, String>("Description"));
+        beds.setCellValueFactory(new PropertyValueFactory<Room, Integer>("Beds"));
+        //List<Room> rooms = rest.getRooms();
+        roomTable.getItems().add(new Room(1L, "test", 5, Room.priceRange.HIGH, "Stad", "tlkadklaslk", 2, true, false, true, false, true, 99, 1));
+        roomTable.getItems().add(new Room(2L, "En liten båt", 1, Room.priceRange.HIGH, "Öresund", "vi vet alla vad som pågår här", 1, true, false, true, false, true, 99, 1));
 
         AnchorPane.setBottomAnchor(btnSearch, 35.0);
         AnchorPane.setLeftAnchor(btnSearch, 10.0);
@@ -117,10 +167,10 @@ public class SearchWindow
         AnchorPane.setTopAnchor(cboxChildren, 150.0);
         AnchorPane.setLeftAnchor(cboxChildren, 75.0);
 
-        AnchorPane.setTopAnchor(lvListLocations, 5.0);
-        AnchorPane.setLeftAnchor(lvListLocations, 250.0);
-        AnchorPane.setBottomAnchor(lvListLocations, 50.0);
-        AnchorPane.setRightAnchor(lvListLocations, 5.0);
+        AnchorPane.setTopAnchor(roomTable, 5.0);
+        AnchorPane.setLeftAnchor(roomTable, 250.0);
+        AnchorPane.setBottomAnchor(roomTable, 50.0);
+        AnchorPane.setRightAnchor(roomTable, 5.0);
 
         AnchorPane.setTopAnchor(labelAdult, 130.0);
         AnchorPane.setLeftAnchor(labelAdult, 5.0);
@@ -148,7 +198,7 @@ public class SearchWindow
                 cbNightLife,
                 cbSeaView,
                 cboxAdults,
-                lvListLocations,
+                //lvListLocations,
                 labelAdult,
                 cboxChildren,
                 labelKids,
@@ -156,16 +206,17 @@ public class SearchWindow
                 hlAccount,
                 btnContinue,
                 tfBeachDistance,
-                tfCenterDistance);
+                tfCenterDistance,
+                roomTable);
         primaryStage.setScene(searchScene);
         primaryStage.show();
 
         hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
         btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
-        btnSearch.setOnAction((e -> {
-            List<Room> rooms = rest.getRooms();
-            for (Room r : rooms)
-                listLocations.add(r.toString());
-        }));
+        //    btnSearch.setOnAction((e -> {
+        //        List<Room> rooms = rest.getRooms();
+        //        for (Room r : rooms)
+        //            listLocations.add(r.toString());
+        //    }));
     }
 }
