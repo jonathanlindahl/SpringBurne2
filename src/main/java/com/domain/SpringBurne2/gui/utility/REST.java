@@ -4,13 +4,17 @@ import com.domain.SpringBurne2.models.Customer;
 
 import com.domain.SpringBurne2.models.Room;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class REST
@@ -68,12 +72,15 @@ public class REST
         } catch (URISyntaxException ex) {
             ex.printStackTrace();
         }
-        var response = HttpClient.newBuilder().build().sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        var response =
+                HttpClient.newBuilder().build().sendAsync(
+                        request, HttpResponse.BodyHandlers.ofString());
         return response.thenApply(HttpResponse::body).join();
     }
     
-    public Room getRooms()
+    public List<Room> getRooms()
     {
+        List<Room> roomList = new ArrayList<>();
         HttpRequest request = null;
         try {
             request = HttpRequest.newBuilder()
@@ -88,50 +95,12 @@ public class REST
                         .build()
                         .sendAsync(
                                 request, HttpResponse.BodyHandlers.ofString());
-        Room r = parseRoom(response.thenApply(HttpResponse::body).join());
-        return r;
-    }
-
-    private Room parseRoom(String s)
-    {
-        String toRemove[] =
-                {
-                        "roomId",
-                        "name",
-                        "rating",
-                        "range",
-                        "city",
-                        "description",
-                        "beds",
-                        "pool",
-                        "restaurant",
-                        "childClub",
-                        "centralLocation",
-                        "seaView",
-                        "distanceToBeach",
-                        "distanceToCenter"
-                };
-        String room = s.replaceAll("[\\[{\":}\\]]", "");
-        String roomParams[] = room.split(",");
-        for (int i = 0; i < toRemove.length; ++i)
-            if (roomParams[i].contains(toRemove[i]))
-                roomParams[i] = roomParams[i].replace(toRemove[i], "");
-        System.out.println(Arrays.asList(roomParams).toString());
-            return new Room(
-                Long.parseLong(roomParams[0]),
-                roomParams[1],
-                Integer.parseInt(roomParams[2]),
-                Room.priceRange.valueOf(roomParams[3]),
-                roomParams[4],
-                roomParams[5],
-                Integer.parseInt(roomParams[6]),
-                Boolean.getBoolean(roomParams[7]),
-                Boolean.getBoolean(roomParams[8]),
-                Boolean.getBoolean(roomParams[9]),
-                Boolean.getBoolean(roomParams[10]),
-                Boolean.getBoolean(roomParams[11]),
-                Integer.parseInt(roomParams[12]),
-                Integer.parseInt(roomParams[13])
-                );
+        String jsonRooms = response.thenApply(HttpResponse::body).join();
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Room>>() {}.getType();
+        ArrayList<Room> rooms = new Gson().fromJson(jsonRooms, listType);
+        for (Room r1 : rooms)
+            System.out.println(r1);
+        return rooms;
     }
 }
