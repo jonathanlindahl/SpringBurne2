@@ -30,6 +30,7 @@ public class CreateAccount
         AnchorPane createAccountWindow = new AnchorPane();
         Scene createScene = new Scene(createAccountWindow, 300, 225);
         createAccountWindow.setPadding(new Insets(10, 10, 10, 10));
+        primaryStage.centerOnScreen();
 
         TextField tfFirstName = new TextField();
         TextField tfLastName = new TextField();

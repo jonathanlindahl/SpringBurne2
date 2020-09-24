@@ -32,6 +32,7 @@ public class App extends Application
         AnchorPane loginWindow = new AnchorPane();
         Scene loginScene = new Scene(loginWindow, 300, 175);
         loginWindow.setPadding(new Insets(10, 10, 10, 10));
+        primaryStage.centerOnScreen();
 
         TextField tfEmail = new TextField();
         Label labelEmail = new Label("Email: ");

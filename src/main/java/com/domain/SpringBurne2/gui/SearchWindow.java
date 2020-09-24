@@ -9,6 +9,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,7 +30,7 @@ public class SearchWindow
 
         primaryStage.setTitle("SpringBurne");
         AnchorPane searchWindow = new AnchorPane();
-        Scene searchScene = new Scene(searchWindow, 650, 450);
+        Scene searchScene = new Scene(searchWindow, 1000, 450);
         searchWindow.setPadding(new Insets(10, 10, 10, 10));
         primaryStage.centerOnScreen();
 
@@ -107,9 +108,6 @@ public class SearchWindow
         tfSearch.setPrefWidth(230);
         btnSearch.setPrefWidth(75.0);
 
-
-
-
         AnchorPane.setBottomAnchor(btnSearch, 35.0);
         AnchorPane.setLeftAnchor(btnSearch, 10.0);
 
@@ -149,7 +147,7 @@ public class SearchWindow
         AnchorPane.setLeftAnchor(cboxChildren, 75.0);
 
         AnchorPane.setTopAnchor(roomTable, 5.0);
-        AnchorPane.setLeftAnchor(roomTable, 250.0);
+        AnchorPane.setLeftAnchor(roomTable, 335.0);
         AnchorPane.setBottomAnchor(roomTable, 50.0);
         AnchorPane.setRightAnchor(roomTable, 5.0);
 
