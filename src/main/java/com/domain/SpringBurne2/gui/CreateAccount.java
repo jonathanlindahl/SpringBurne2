@@ -5,25 +5,30 @@ import com.domain.SpringBurne2.models.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class CreateAccount
 {
-    public void createAccountWindow (Stage primaryStage)
+    public void createAccountWindow(Stage primaryStage)
     {
+        REST rest = new REST();
         App login = new App();
 
         primaryStage.setTitle("SpringBurne");
         AnchorPane createAccountWindow = new AnchorPane();
-        Scene createScene = new Scene(createAccountWindow, 300,200);
+        Scene createScene = new Scene(createAccountWindow, 300, 225);
         createAccountWindow.setPadding(new Insets(10, 10, 10, 10));
 
         TextField tfFirstName = new TextField();
@@ -34,6 +39,7 @@ public class CreateAccount
         Label labelLName = new Label("Last name: ");
         Label labelEmail = new Label("Email: ");
         Label labelPassword = new Label("Password: ");
+        Label labelGender = new Label("Gender:");
         Button btnBack = new Button("Back");
         Button btnCreate = new Button("Create");
 
@@ -65,18 +71,20 @@ public class CreateAccount
         AnchorPane.setLeftAnchor(tfEmail, 75.0);
 
         AnchorPane.setTopAnchor(labelPassword, 100.0);
-        AnchorPane.setLeftAnchor(labelPassword,5.0);
+        AnchorPane.setLeftAnchor(labelPassword, 5.0);
         AnchorPane.setTopAnchor(tfPassword, 100.0);
         AnchorPane.setLeftAnchor(tfPassword, 75.0);
 
-        AnchorPane.setTopAnchor(btnBack, 150.0);
-        AnchorPane.setRightAnchor(btnBack,65.0);
+        AnchorPane.setBottomAnchor(btnBack, 5.0);
+        AnchorPane.setLeftAnchor(btnBack, 5.0);
 
-       AnchorPane.setTopAnchor(btnCreate, 150.0);
+        AnchorPane.setBottomAnchor(btnCreate, 5.0);
         AnchorPane.setRightAnchor(btnCreate, 5.0);
 
-        AnchorPane.setLeftAnchor(cboxGender, 10.0);
-        AnchorPane.setTopAnchor(cboxGender, 150.0);
+        AnchorPane.setLeftAnchor(cboxGender, 75.0);
+        AnchorPane.setTopAnchor(cboxGender, 130.0);
+        AnchorPane.setTopAnchor(labelGender, 133.0);
+        AnchorPane.setLeftAnchor(labelGender, 5.0);
 
         createAccountWindow.getChildren().addAll(
                 labelFName,
@@ -89,7 +97,8 @@ public class CreateAccount
                 tfPassword,
                 btnBack,
                 btnCreate,
-                cboxGender);
+                cboxGender,
+                labelGender);
         primaryStage.setScene(createScene);
         primaryStage.show();
 
@@ -100,9 +109,9 @@ public class CreateAccount
                 ioException.printStackTrace();
             }
         });
-        //TODO: prompt successful creation
+
         btnCreate.setOnAction(e -> {
-            String value = (String)cboxGender.getValue();
+            String value = (String) cboxGender.getValue();
             Customer c = new Customer(
                     0L,
                     tfFirstName.getText(),
@@ -110,13 +119,40 @@ public class CreateAccount
                     Customer.Gender.valueOf(value),
                     tfEmail.getText(),
                     tfPassword.getText());
-            REST rest = new REST();
             rest.postUser(c);
+            confirmAccountWindow(primaryStage);
+        });
+    }
+
+    public void confirmAccountWindow(Stage primaryStage)
+    {
+        App login = new App();
+
+        primaryStage.setTitle("SpringBurne");
+        BorderPane createAccountWindow = new BorderPane();
+        Scene createScene = new Scene(createAccountWindow, 300, 225);
+        createAccountWindow.setPadding(new Insets(10, 10, 10, 10));
+
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+
+        Label labelCreated = new Label("Account Created");
+        Button btnOk = new Button("Ok");
+
+        vbox.setAlignment(Pos.CENTER);
+        createAccountWindow.setCenter(vbox);
+        vbox.getChildren().addAll(labelCreated, btnOk);
+        primaryStage.setScene(createScene);
+        primaryStage.show();
+
+        btnOk.setOnAction(e -> {
             try {
                 login.start(primaryStage);
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
         });
+
     }
 }
