@@ -2,13 +2,19 @@ package com.domain.SpringBurne2.gui;
 
 import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
+import com.domain.SpringBurne2.models.Reservation;
+import com.domain.SpringBurne2.models.Room;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class AccountWindow
 {
@@ -56,15 +62,35 @@ public class AccountWindow
 
         Button btnSave = new Button("Save");
 
-        ObservableList<String> listLocations
-                = FXCollections.observableArrayList();
-        ListView<String> lvListLocations = new ListView<String>(listLocations);
-        SelectionModel<String> lvSelModel
-                = lvListLocations.getSelectionModel();
+//        ObservableList<String> listLocations
+//                = FXCollections.observableArrayList();
+//        ListView<String> lvListLocations = new ListView<String>(listLocations);
+//        SelectionModel<String> lvSelModel
+//                = lvListLocations.getSelectionModel();
 
         Button btnCancelReservation = new Button("Cancel Reservation");
         Button btnChangeReservation = new Button("Change Reservation");
         Button btnBack = new Button("Back to booking");
+    
+        TableView roomTable = new TableView();
+    
+        TableColumn<Room, Long> roomId = new TableColumn<>("Room ID");
+        TableColumn<Room, String> roomName = new TableColumn<>("Name");
+        TableColumn<Room, Integer> rating = new TableColumn<>("Rating");
+        TableColumn<Room, Room.priceRange> priceRange = new TableColumn<>("Price Range");
+        TableColumn<Room, String> city = new TableColumn<>("City");
+        TableColumn<Room, String> description = new TableColumn<>("Description");
+        TableColumn<Room, Integer> beds = new TableColumn<>("beds");
+    
+        roomTable.getColumns().addAll(
+                roomId,
+                roomName,
+                rating,
+                priceRange,
+                city,
+                description,
+                beds
+        );
 
         AnchorPane.setTopAnchor(labelFName, 5.0);
         AnchorPane.setLeftAnchor(labelFName, 5.0);
@@ -97,10 +123,10 @@ public class AccountWindow
         AnchorPane.setTopAnchor(btnSave, 140.0);
         AnchorPane.setLeftAnchor(btnSave, 5.0);
 
-        AnchorPane.setTopAnchor(lvListLocations, 5.0);
-        AnchorPane.setLeftAnchor(lvListLocations, 250.0);
-        AnchorPane.setBottomAnchor(lvListLocations, 50.0);
-        AnchorPane.setRightAnchor(lvListLocations, 5.0);
+        AnchorPane.setTopAnchor(roomTable, 5.0);
+        AnchorPane.setLeftAnchor(roomTable, 250.0);
+        AnchorPane.setBottomAnchor(roomTable, 50.0);
+        AnchorPane.setRightAnchor(roomTable, 5.0);
 
         AnchorPane.setBottomAnchor(btnChangeReservation, 5.0);
         AnchorPane.setRightAnchor(btnChangeReservation,5.0);
@@ -110,7 +136,39 @@ public class AccountWindow
 
         AnchorPane.setBottomAnchor(btnBack,5.0);
         AnchorPane.setLeftAnchor(btnBack,5.0);
-
+        
+        List<Room> rooms = rest.getRooms();
+        List<Reservation> reservations = rest.getReservations();
+        roomId.setCellValueFactory(
+                new PropertyValueFactory<Room, Long>("roomId"));
+        roomName.setCellValueFactory(
+                new PropertyValueFactory<Room, String>("Name"));
+        rating.setCellValueFactory(
+                new PropertyValueFactory<Room, Integer>("Rating"));
+        priceRange.setCellValueFactory(
+                param -> {
+                    Room r = param.getValue();
+                    String s = Room.priceRange.valueOf(
+                            r.getRange().toString())
+                            .toString();
+                    Room.priceRange pr = Room.priceRange.valueOf(s);
+                    return new SimpleObjectProperty<>(pr);
+                });
+        city.setCellValueFactory(
+                new PropertyValueFactory<Room, String>("City"));
+        description.setCellValueFactory(
+                new PropertyValueFactory<Room, String>("Description"));
+        beds.setCellValueFactory(
+                new PropertyValueFactory<Room, Integer>("Beds"));
+        Long r = 0L;
+        Long c = 0L;
+        for (int j = 0; j < reservations.size(); ++j)
+        {
+            r = reservations.get(j).getCustomerId();
+            c = customer.getCustomerId();
+            if (r.equals(c))
+                roomTable.getItems().add(rooms.get(j));
+        }
         accountWindow.getChildren().addAll(
                 tfFName,
                 labelFName,
@@ -125,7 +183,7 @@ public class AccountWindow
                 labelPassword,
                 hlChangePassword,
                 btnSave,
-                lvListLocations,
+                roomTable,
                 btnChangeReservation,
                 btnCancelReservation,
                 btnBack);
@@ -199,5 +257,4 @@ public class AccountWindow
 
         btnBack.setOnAction(event -> searchWindow.searchWindow(primaryStage, customer));
     }
-
 }

@@ -2,7 +2,6 @@ package com.domain.SpringBurne2.gui;
 
 import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
-import com.domain.SpringBurne2.repositories.CustomerRepositoryImpl;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -77,7 +76,7 @@ public class App extends Application
         primaryStage.setScene(loginScene);
         primaryStage.show();
 
-        btnContinue.setOnAction(e -> searchWindow.searchWindow(primaryStage, rest.getCustomerByEmail("mehbleh@meh.bleh")));
+        btnContinue.setOnAction(e -> searchWindow.searchWindow(primaryStage, rest.getCustomerByEmail("William.Hoscut@obradinn.co.uk")));
         btnNewUser.setOnAction(e -> createAccount.createAccountWindow(primaryStage));
         btnLogin.setOnAction(e -> {
             Customer c = rest.getCustomerByEmail(tfEmail.getText());

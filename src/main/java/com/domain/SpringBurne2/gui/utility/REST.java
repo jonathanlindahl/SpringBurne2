@@ -2,6 +2,7 @@ package com.domain.SpringBurne2.gui.utility;
 
 import com.domain.SpringBurne2.models.Customer;
 
+import com.domain.SpringBurne2.models.Reservation;
 import com.domain.SpringBurne2.models.Room;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -98,5 +99,26 @@ public class REST
         String jsonRooms = response.thenApply(HttpResponse::body).join();
         Type listType = new TypeToken<List<Room>>() {}.getType();
         return new Gson().fromJson(jsonRooms, listType);
+    }
+    
+    public List<Reservation> getReservations()
+    {
+        HttpRequest request = null;
+        try {
+            request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/allreservations"))
+                    .GET()
+                    .build();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        CompletableFuture<HttpResponse<String>> response =
+                HttpClient.newBuilder()
+                        .build()
+                        .sendAsync(
+                                request, HttpResponse.BodyHandlers.ofString());
+        String jsonReservations = response.thenApply(HttpResponse::body).join();
+        Type listType = new TypeToken<List<Reservation>>() {}.getType();
+        return new Gson().fromJson(jsonReservations, listType);
     }
 }
