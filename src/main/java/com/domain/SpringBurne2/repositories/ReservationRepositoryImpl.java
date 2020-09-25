@@ -24,7 +24,12 @@ public class ReservationRepositoryImpl
                 rs.getLong("CustomerID"),
                 rs.getLong("RoomID"),
                 rs.getString("StartDate"),
-                rs.getString("EndDate"));
+                rs.getString("EndDate"),
+                rs.getBoolean("HalfBoard"),
+                rs.getBoolean("FullBoard"),
+                rs.getBoolean("AllInclusive"),
+                rs.getInt("ExtraBeds"),
+                rs.getInt("ExtraCribs"));
     }
 
     public static List<Reservation> getAllReservations()
