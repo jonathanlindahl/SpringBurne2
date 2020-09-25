@@ -264,5 +264,11 @@ public class AccountWindow
         });
 
         btnBack.setOnAction(event -> searchWindow.searchWindow(primaryStage, customer));
+        btnCancelReservation.setOnAction(e -> {
+            int i = reservationTable.getSelectionModel().getSelectedIndex();
+            Reservation r = (Reservation) reservationTable.getItems().get(i);
+            rest.deleteReservation(r);
+            reservationTable.getItems().remove(i);
+        });
     }
 }
