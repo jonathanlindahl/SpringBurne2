@@ -21,16 +21,7 @@ public class RoomService
 //        return filterSearch(
 //                RoomRepositoryImpl.getAllRooms(),
 //                // TODO: replace with actual search from GUI
-//                new Search(
-//                        sdf.parse("2020-10-03"),
-//                        sdf.parse("2020-10-18"),
-//                        0,
-//                        0,
-//                        false,
-//                        false,
-//                        false,
-//                        false,
-//                        false));
+//                searchController.addSearch();
         return RoomRepositoryImpl.getAllRooms();
     }
     
