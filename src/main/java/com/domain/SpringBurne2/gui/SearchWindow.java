@@ -244,8 +244,8 @@ public class SearchWindow
                         new PropertyValueFactory<Room, Boolean>("SeaView"));
                 distanceToBeach.setCellValueFactory(
                         new PropertyValueFactory<Room, Integer>("DistanceToBeach"));
-                distanceToBeach.setCellValueFactory(
-                        new PropertyValueFactory<Room, Integer>("DistanceToCenter")); //TODO Skriver inte ut
+                distanceToCenter.setCellValueFactory(
+                        new PropertyValueFactory<Room, Integer>("distanceToCenter"));
                 roomTable.getItems().add(room);
             }
         }));

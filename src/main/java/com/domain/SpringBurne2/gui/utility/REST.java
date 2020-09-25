@@ -121,4 +121,62 @@ public class REST
         Type listType = new TypeToken<List<Reservation>>() {}.getType();
         return new Gson().fromJson(jsonReservations, listType);
     }
+    
+    public String postReservation(Reservation r)
+    {
+        HttpRequest request = null;
+        try {
+            request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/addreservation"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(r)))
+                    .build();
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
+        var response =
+                HttpClient.newBuilder().build().sendAsync(
+                        request, HttpResponse.BodyHandlers.ofString());
+        return response.thenApply(HttpResponse::body).join();
+    }
+    
+    public String updateReservation(Reservation r)
+    {
+        HttpRequest request = null;
+        try {
+            request = HttpRequest.newBuilder()
+                    .uri(new URI(
+                            String.format("http://localhost:8080/updatereservation?id=%d",
+                                    r.getReservationId())))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(new Gson().toJson(r)))
+                    .build();
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
+        var response =
+                HttpClient.newBuilder().build().sendAsync(
+                        request, HttpResponse.BodyHandlers.ofString());
+        return response.thenApply(HttpResponse::body).join();
+    }
+    
+    public String deleteReservation(Reservation r)
+    {
+        HttpRequest request = null;
+        try {
+            request = HttpRequest.newBuilder()
+                    .uri(new URI(
+                            String.format(
+                                    "http://localhost:8080/deletereservation?id=%d",
+                                    r.getReservationId())))
+                    .DELETE()
+                    .build();
+        } catch (URISyntaxException ex) {
+            ex.printStackTrace();
+        }
+        var response =
+                HttpClient.newBuilder().build().sendAsync(
+                        request, HttpResponse.BodyHandlers.ofString());
+        return response.thenApply(HttpResponse::body).join();
+    }
 }

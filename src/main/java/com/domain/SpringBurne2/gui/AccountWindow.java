@@ -69,38 +69,7 @@ public class AccountWindow
         Button btnChangeReservation = new Button("Change Reservation");
         Button btnBack = new Button("Back to booking");
         TableView reservationTable = new TableView();
-
-//        TableColumn<Room, Long> roomId = new TableColumn<>("Room ID");
-//        TableColumn<Room, String> roomName = new TableColumn<>("Name");
-//        TableColumn<Room, Integer> rating = new TableColumn<>("Rating");
-//        TableColumn<Room, Room.priceRange> priceRange = new TableColumn<>("Price Range");
-//        TableColumn<Room, String> city = new TableColumn<>("City");
-//        TableColumn<Room, String> description = new TableColumn<>("Description");
-//        TableColumn<Room, Integer> beds = new TableColumn<>("Beds");
-//        TableColumn<Room, Boolean> pool = new TableColumn<>("Pool");
-//        TableColumn<Room, Boolean> restaurant = new TableColumn<>("Restaurant");
-//        TableColumn<Room, Boolean> childrensClub = new TableColumn<>("Children's Club");
-//        TableColumn<Room, Boolean> centralLocation = new TableColumn<>("Central Location");
-//        TableColumn<Room, Boolean> seaView = new TableColumn<>("Sea View");
-//        TableColumn<Room, Integer> distanceToBeach = new TableColumn<>("Distance to beach");
-//        TableColumn<Room, Integer> distanceToCenter = new TableColumn<>("Distance to center");
-//
-//        roomTable.getColumns().addAll(
-//                roomId,
-//                roomName,
-//                rating,
-//                priceRange,
-//                city,
-//                description,
-//                beds,
-//                pool,
-//                restaurant,
-//                childrensClub,
-//                centralLocation,
-//                seaView,
-//                distanceToBeach,
-//                distanceToCenter
-//        );
+        
         TableColumn<Reservation, Long> bookingId = new TableColumn<>("Booking ID");
         TableColumn<Reservation, Long> customerId = new TableColumn<>("Customer ID");
         TableColumn<Reservation, Long> roomId = new TableColumn<>("Room ID");
@@ -210,11 +179,11 @@ public class AccountWindow
 
         List<Reservation> reservations = rest.getReservations();
         bookingId.setCellValueFactory(
-                new PropertyValueFactory<Reservation, Long>("BookingID"));
+                new PropertyValueFactory<Reservation, Long>("reservationId"));
         customerId.setCellValueFactory(
-                new PropertyValueFactory<Reservation, Long>("CustomerID"));
+                new PropertyValueFactory<Reservation, Long>("customerId"));
         roomId.setCellValueFactory(
-                new PropertyValueFactory<Reservation, Long>("RoomID"));
+                new PropertyValueFactory<Reservation, Long>("roomId"));
         checkInDate.setCellValueFactory(
                 new PropertyValueFactory<Reservation, String>("StartDate"));
         checkoutDate.setCellValueFactory(
@@ -229,6 +198,10 @@ public class AccountWindow
                 new PropertyValueFactory<Reservation, Integer>("ExtraBeds"));
         extraCribs.setCellValueFactory(
                 new PropertyValueFactory<Reservation, Integer>("ExtraCribs"));
+        
+        for (Reservation r : reservations)
+            if (r.getCustomerId().equals(customer.getCustomerId()))
+                reservationTable.getItems().add(r);
 
         hlChangeFName.setOnAction(e ->
         {
@@ -293,48 +266,3 @@ public class AccountWindow
         btnBack.setOnAction(event -> searchWindow.searchWindow(primaryStage, customer));
     }
 }
-//        List<Room> rooms = rest.getRooms();
-//        List<Reservation> reservations = rest.getReservations();
-//        roomId.setCellValueFactory(
-//                new PropertyValueFactory<Room, Long>("roomId"));
-//        roomName.setCellValueFactory(
-//                new PropertyValueFactory<Room, String>("Name"));
-//        rating.setCellValueFactory(
-//                new PropertyValueFactory<Room, Integer>("Rating"));
-//        priceRange.setCellValueFactory(
-//                param -> {
-//                    Room r = param.getValue();
-//                    String s = Room.priceRange.valueOf(
-//                            r.getRange().toString())
-//                            .toString();
-//                    Room.priceRange pr = Room.priceRange.valueOf(s);
-//                    return new SimpleObjectProperty<>(pr);
-//                });
-//        city.setCellValueFactory(
-//                new PropertyValueFactory<Room, String>("City"));
-//        description.setCellValueFactory(
-//                new PropertyValueFactory<Room, String>("Description"));
-//        beds.setCellValueFactory(
-//                new PropertyValueFactory<Room, Integer>("Beds"));
-//        pool.setCellValueFactory(
-//                new PropertyValueFactory<Room, Boolean>("Pool"));
-//        restaurant.setCellValueFactory(
-//                new PropertyValueFactory<Room, Boolean>("Restaurant"));
-//        childrensClub.setCellValueFactory(
-//                new PropertyValueFactory<Room, Boolean>("ChildClub"));
-//        centralLocation.setCellValueFactory(
-//                new PropertyValueFactory<Room, Boolean>("CentralLocation"));
-//        seaView.setCellValueFactory(
-//                new PropertyValueFactory<Room, Boolean>("SeaView"));
-//        distanceToBeach.setCellValueFactory(
-//                new PropertyValueFactory<Room, Integer>("DistanceToBeach"));
-//        distanceToBeach.setCellValueFactory(
-//                new PropertyValueFactory<Room, Integer>("DistanceToCenter")); //TODO Skriver inte ut
-//        Long r = 0L;
-//        Long c = 0L;
-//        for (int j = 0; j < reservations.size(); ++j) {
-//            r = reservations.get(j).getCustomerId();
-//            c = customer.getCustomerId();
-//            if (r.equals(c))
-//                roomTable.getItems().add(rooms.get(j));
-//        }
