@@ -2,7 +2,10 @@ package com.domain.SpringBurne2.gui;
 
 import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
+import com.domain.SpringBurne2.models.Reservation;
 import com.domain.SpringBurne2.models.Room;
+import com.domain.SpringBurne2.repositories.ReservationRepositoryImpl;
+import com.domain.SpringBurne2.utility.Search;
 import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -17,9 +20,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SearchWindow
 {
@@ -210,6 +218,7 @@ public class SearchWindow
         btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
         btnSearch.setOnAction((e -> {
             List<Room> rooms = rest.getRooms();
+            //TODO: Search search = new Search()
             for (Room room : rooms) {
                 roomId.setCellValueFactory(
                         new PropertyValueFactory<Room, Long>("roomId"));
@@ -249,5 +258,54 @@ public class SearchWindow
                 roomTable.getItems().add(room);
             }
         }));
+    }
+    
+    public List<Room> filterSearch(
+            List<Room> rooms, Search s) throws ParseException
+    {
+        return availableBetween(
+                rooms, s.getStartDate(), s.getEndDate())
+                .stream()
+                .filter(r -> r.getDistanceToBeach() < s.getDistanceToBeach())
+                .filter(r -> r.getDistanceToCenter() < s.getDistanceToCenter())
+                .filter(r -> r.isPool() || !s.getPool())
+                .filter(r -> r.isRestaurant() || !s.getRestaurant())
+                .filter(r -> r.isChildClub() || !s.getChildClub())
+                .filter(r -> r.isCentralLocation() || !s.getCentralLocation())
+                .filter(r -> r.isSeaView() || !s.getSeaView())
+                .collect(Collectors.toList());
+    }
+    
+    private static boolean overlap(
+            Date start1, Date end1, Date start2, Date end2)
+    {
+        return
+                start1.getTime() <= end2.getTime() &&
+                        start2.getTime() <= end1.getTime();
+    }
+    
+    public List<Room> availableBetween(
+            List<Room> rooms, Date start, Date end) throws ParseException
+    {
+        List<Reservation> reservations =
+                ReservationRepositoryImpl.getAllReservations();
+        for (Reservation reservation : reservations)
+        {
+            for (Iterator<Room> it = rooms.listIterator(); it.hasNext();)
+            {
+                Room room = it.next();
+                if (
+                        reservation.getRoomId().equals(room.getRoomId())
+                                && overlap(
+                                start,
+                                end,
+                                new SimpleDateFormat("yyyy-MM-dd")
+                                        .parse(reservation.getStartDate()),
+                                new SimpleDateFormat("yyyy-MM-dd")
+                                        .parse(reservation.getEndDate())))
+                    it.remove();
+            }
+        }
+        return rooms;
     }
 }
