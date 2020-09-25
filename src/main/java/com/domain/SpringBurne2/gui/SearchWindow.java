@@ -223,20 +223,36 @@ public class SearchWindow
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String checkInStr = dateTimeFormatter.format(checkInDate.getValue());
             String checkOutStr = dateTimeFormatter.format(checkOutDate.getValue());
-            Search search = new Search(
-                    checkInStr,
-                    checkOutStr,
-                    Integer.parseInt(tfBeachDistance.getText()),
-                    Integer.parseInt(tfCenterDistance.getText()),
-                    cbPool.isSelected(),
-                    cbRestaurant.isSelected(),
-                    cbChildrensClub.isSelected(),
-                    cbNightLife.isSelected(),
-                    cbSeaView.isSelected());
             try {
+                Search search = new Search(
+                        checkInStr,
+                        checkOutStr,
+                        Integer.parseInt(tfBeachDistance.getText()),
+                        Integer.parseInt(tfCenterDistance.getText()),
+                        cbPool.isSelected(),
+                        cbRestaurant.isSelected(),
+                        cbChildrensClub.isSelected(),
+                        cbNightLife.isSelected(),
+                        cbSeaView.isSelected());
                 rooms = filterSearch(rooms, search);
-            } catch (ParseException ex) {
-                ex.printStackTrace();
+            } catch (ParseException parseException) {
+                parseException.printStackTrace();
+            } catch (NumberFormatException numberFormatException) {
+                try {
+                    Search search = new Search(
+                            checkInStr,
+                            checkOutStr,
+                            0,
+                            0,
+                            cbPool.isSelected(),
+                            cbRestaurant.isSelected(),
+                            cbChildrensClub.isSelected(),
+                            cbNightLife.isSelected(),
+                            cbSeaView.isSelected());
+                    rooms = filterSearch(rooms, search);
+                } catch (ParseException pEx) {
+                    pEx.printStackTrace();
+                }
             }
             for (Room room : rooms) {
                 roomId.setCellValueFactory(
