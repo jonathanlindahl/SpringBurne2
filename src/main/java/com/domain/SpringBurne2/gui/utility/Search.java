@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Search
 {
-    private final Date startDate;
-    private final Date endDate;
+    private final String startDate;
+    private final String endDate;
     
     private final int distanceToBeach;
     private final int distanceToCenter;
@@ -16,23 +16,16 @@ public class Search
     private final boolean centralLocation;
     private final boolean seaView;
     
-    private final boolean halfBoard;
-    private final boolean fullBoard;
-    private final boolean allInclusive;
-    
     public Search(
-            Date startDate,
-            Date endDate,
+            String startDate,
+            String endDate,
             int distanceToBeach,
             int distanceToCenter,
             boolean pool,
             boolean restaurant,
             boolean childClub,
             boolean centralLocation,
-            boolean seaView,
-            boolean halfBoard,
-            boolean fullBoard,
-            boolean allInclusive)
+            boolean seaView)
     {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -43,13 +36,10 @@ public class Search
         this.childClub = childClub;
         this.centralLocation = centralLocation;
         this.seaView = seaView;
-        this.halfBoard = halfBoard;
-        this.fullBoard = fullBoard;
-        this.allInclusive = allInclusive;
     }
     
-    public Date getStartDate() { return startDate; }
-    public Date getEndDate() { return endDate; }
+    public String getStartDate() { return startDate; }
+    public String getEndDate() { return endDate; }
     public int getDistanceToBeach() { return distanceToBeach; }
     public int getDistanceToCenter() { return distanceToCenter; }
     public boolean isPool() { return pool; }
@@ -57,7 +47,4 @@ public class Search
     public boolean isChildClub() { return childClub; }
     public boolean isCentralLocation() { return centralLocation; }
     public boolean isSeaView() { return seaView; }
-    public boolean isHalfBoard() { return halfBoard; }
-    public boolean isFullBoard() { return fullBoard; }
-    public boolean isAllInclusive() { return allInclusive; }
 }
