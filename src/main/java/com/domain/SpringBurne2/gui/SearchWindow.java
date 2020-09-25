@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -55,6 +56,9 @@ public class SearchWindow
         Label labelFilter = new Label("Optional search filters: ");
         Label labelBeach = new Label("Distance to beach:");
         Label labelCenter = new Label("Distance to center: ");
+        Label labelError = new Label("Error");
+        labelError.setTextFill(Color.web("#ff0000", 0.8));
+
         TableView roomTable = new TableView();
 
         ObservableList<Integer> adults = FXCollections.observableArrayList( // TODO for loop för antal ? annars lägg till fler
@@ -118,6 +122,9 @@ public class SearchWindow
         AnchorPane.setBottomAnchor(btnSearch, 50.0);
         AnchorPane.setLeftAnchor(btnSearch, 250.0);
 
+        AnchorPane.setBottomAnchor(labelError,80.0);
+        AnchorPane.setLeftAnchor(labelError, 250.0);
+
         AnchorPane.setTopAnchor(tfSearch, 35.0);
         AnchorPane.setLeftAnchor(tfSearch, 5.0);
 
@@ -126,6 +133,7 @@ public class SearchWindow
 
         AnchorPane.setTopAnchor(checkOutDate, 65.0);
         AnchorPane.setLeftAnchor(checkOutDate, 170.0);
+
 
         AnchorPane.setTopAnchor(labelFilter, 180.0);
         AnchorPane.setLeftAnchor(labelFilter, 5.0);
@@ -202,7 +210,8 @@ public class SearchWindow
                 checkOutDate,
                 labelFilter,
                 labelBeach,
-                labelCenter);
+                labelCenter,
+                labelError);
         primaryStage.setScene(searchScene);
         primaryStage.show();
 
