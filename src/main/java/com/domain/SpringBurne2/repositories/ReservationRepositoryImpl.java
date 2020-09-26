@@ -30,7 +30,7 @@ public class ReservationRepositoryImpl
                 rs.getBoolean("AllInclusive"),
                 rs.getInt("ExtraBeds"),
                 rs.getInt("ExtraCribs"),
-                rs.getInt("Aults"),
+                rs.getInt("Adults"),
                 rs.getInt("Kids"));
     }
 
