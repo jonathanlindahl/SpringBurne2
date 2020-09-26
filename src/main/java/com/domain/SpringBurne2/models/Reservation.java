@@ -15,6 +15,8 @@ public class Reservation
     private boolean allInclusive;
     private int extraBeds;
     private int extraCribs;
+    private int adults;
+    private int kids;
 
     public Reservation(Long reservationId,
                        Long customerId,
@@ -25,7 +27,9 @@ public class Reservation
                        boolean fullBoard,
                        boolean allInclusive,
                        int extraBeds,
-                       int extraCribs)
+                       int extraCribs,
+                       int adults,
+                       int kids)
     {
         this.reservationId = reservationId;
         this.customerId = customerId;
@@ -37,6 +41,8 @@ public class Reservation
         this.allInclusive = allInclusive;
         this.extraBeds = extraBeds;
         this.extraCribs = extraCribs;
+        this.adults = adults;
+        this.kids = kids;
     }
 
     public Long getReservationId() { return reservationId; }
@@ -49,15 +55,25 @@ public class Reservation
     public boolean isAllInclusive() { return allInclusive; }
     public int getExtraBeds() { return extraBeds; }
     public int getExtraCribs() { return extraCribs; }
-
+    public int getAdults() { return adults; }
+    public int getKids() { return kids; }
+    
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Reservation{" +
                 "reservationId=" + reservationId +
                 ", customerId=" + customerId +
                 ", roomId=" + roomId +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", halfBoard=" + halfBoard +
+                ", fullBoard=" + fullBoard +
+                ", allInclusive=" + allInclusive +
+                ", extraBeds=" + extraBeds +
+                ", extraCribs=" + extraCribs +
+                ", adults=" + adults +
+                ", kids=" + kids +
                 '}';
     }
 }
