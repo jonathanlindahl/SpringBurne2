@@ -25,6 +25,7 @@ public class AccountWindow
 
         primaryStage.setTitle("SpringBurne");
         SearchWindow searchWindow = new SearchWindow();
+        BookingWindow bookingWindow = new BookingWindow();
         AnchorPane accountWindow = new AnchorPane();
         Scene accountScene = new Scene(accountWindow, 1000, 450);
         accountWindow.setPadding(new Insets(10, 10, 10, 10));
@@ -54,7 +55,7 @@ public class AccountWindow
 
         Label labelPassword = new Label("Password:");
         TextField tfPassword = new TextField();
-        Label labelPasswordInfo = new Label(customer.getPassword()); // TODO gör om till *** om vi har tid
+        Label labelPasswordInfo = new Label(customer.getPassword());
         tfPassword.setDisable(true);
         tfPassword.setVisible(false);
         labelPasswordInfo.setVisible(true);
@@ -263,12 +264,25 @@ public class AccountWindow
             labelPasswordInfo.setVisible(true);
         });
 
-        btnBack.setOnAction(event -> searchWindow.searchWindow(primaryStage, customer));
+        btnBack.setOnAction(event ->
+                searchWindow.searchWindow(primaryStage, customer));
         btnCancelReservation.setOnAction(e -> {
             int i = reservationTable.getSelectionModel().getSelectedIndex();
             Reservation r = (Reservation) reservationTable.getItems().get(i);
             rest.deleteReservation(r);
             reservationTable.getItems().remove(i);
+        });
+        
+        btnChangeReservation.setOnAction(e -> {
+            try {
+                int i = reservationTable.getSelectionModel().getSelectedIndex();
+                Reservation r =
+                        (Reservation) reservationTable.getItems().get(i);
+                bookingWindow.bookingWindow(primaryStage, customer, r);
+            } catch (Exception ex) {
+                // TODO: error label out "no reservation selected"
+                ex.printStackTrace();
+            }
         });
     }
 }

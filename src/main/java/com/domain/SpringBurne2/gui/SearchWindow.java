@@ -186,7 +186,7 @@ public class SearchWindow
 
         AnchorPane.setTopAnchor(labelName, 5.0);
         //AnchorPane.setLeftAnchor(labelName, 230.0);
-        AnchorPane.setRightAnchor(labelName, 652.0); //TODO testa med ett långt namn
+        AnchorPane.setRightAnchor(labelName, 652.0);
 
         AnchorPane.setTopAnchor(hlAccount, 12.0);
         AnchorPane.setLeftAnchor(hlAccount, 280.0);
@@ -225,8 +225,36 @@ public class SearchWindow
         primaryStage.setScene(searchScene);
         primaryStage.show();
 
-        hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
-        btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
+        hlAccount.setOnAction(e ->
+                accountWindow.accountWindow(primaryStage, customer));
+        btnContinue.setOnAction(event -> {
+            try {
+                bookingWindow.bookingWindow(
+                        primaryStage,
+                        customer,
+                        new Reservation(
+                                (long) rest
+                                        .getReservations().size() + 1,
+                                customer.getCustomerId(),
+                                (Long) roomTable.getSelectionModel()
+                                        .getSelectedCells()
+                                        .get(0),
+                                DateTimeFormatter
+                                        .ofPattern("yyyy-MM-dd")
+                                        .format(checkInDate.getValue()),
+                                DateTimeFormatter
+                                        .ofPattern("yyyy-MM-dd")
+                                        .format(checkOutDate.getValue()),
+                                false,
+                                false,
+                                false,
+                                0,
+                                0));
+            } catch (Exception ex) {
+                labelError.setText("Please select a room to view.");
+                ex.printStackTrace();
+            }
+        });
         btnSearch.setOnAction((e -> {
             if (checkInDate.getValue() == null)
                 checkInDate.setValue(LocalDate.now());
@@ -236,9 +264,12 @@ public class SearchWindow
                                 7, ChronoUnit.DAYS));
             roomTable.getItems().clear();
             List<Room> rooms = rest.getRooms();
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String checkInStr = dateTimeFormatter.format(checkInDate.getValue());
-            String checkOutStr = dateTimeFormatter.format(checkOutDate.getValue());
+            DateTimeFormatter dateTimeFormatter =
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String checkInStr = dateTimeFormatter.format(
+                    checkInDate.getValue());
+            String checkOutStr = dateTimeFormatter.format(
+                    checkOutDate.getValue());
             try {
                 Search search = new Search(
                         checkInStr,
