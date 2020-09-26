@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -227,6 +228,12 @@ public class SearchWindow
         hlAccount.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
         btnContinue.setOnAction(event -> bookingWindow.bookingWindow(primaryStage, customer));
         btnSearch.setOnAction((e -> {
+            if (checkInDate.getValue() == null)
+                checkInDate.setValue(LocalDate.now());
+            if (checkOutDate.getValue() == null)
+                checkOutDate.setValue(
+                        checkInDate.getValue().plus(
+                                7, ChronoUnit.DAYS));
             roomTable.getItems().clear();
             List<Room> rooms = rest.getRooms();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
