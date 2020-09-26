@@ -1,6 +1,8 @@
 package com.domain.SpringBurne2.gui;
 
+import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
+import com.domain.SpringBurne2.models.Reservation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -12,11 +14,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.util.List;
 
 public class BookingWindow
 {
-    public void bookingWindow(Stage primaryStage, Customer customer)
+    public void bookingWindow(
+            Stage primaryStage, Customer customer, Reservation reservation)
     {
+        REST rest = new REST();
         SearchWindow searchWindow = new SearchWindow();
         AccountWindow accountWindow = new AccountWindow();
 
@@ -103,6 +108,13 @@ public class BookingWindow
         primaryStage.show();
 
         btnCancel.setOnAction(e -> searchWindow.searchWindow(primaryStage, customer));
-        btnConfirm.setOnAction(e -> accountWindow.accountWindow(primaryStage, customer));
+        btnConfirm.setOnAction(e -> {
+            List<Reservation> reservations = rest.getReservations();
+            if (reservations.contains(reservation))
+                rest.updateReservation(reservation);
+            else
+                rest.postReservation(reservation);
+            accountWindow.accountWindow(primaryStage, customer);
+        });
     }
 }
