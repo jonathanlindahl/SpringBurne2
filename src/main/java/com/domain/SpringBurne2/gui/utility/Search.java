@@ -16,6 +16,11 @@ public class Search
     private final boolean centralLocation;
     private final boolean seaView;
     
+    private final int adults;
+    private final int kids;
+    
+    private final String location;
+    
     public Search(
             String startDate,
             String endDate,
@@ -25,7 +30,10 @@ public class Search
             boolean restaurant,
             boolean childClub,
             boolean centralLocation,
-            boolean seaView)
+            boolean seaView,
+            int adults,
+            int kids,
+            String location)
     {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -36,6 +44,9 @@ public class Search
         this.childClub = childClub;
         this.centralLocation = centralLocation;
         this.seaView = seaView;
+        this.adults = adults;
+        this.kids = kids;
+        this.location = location;
     }
     
     public String getStartDate() { return startDate; }
@@ -47,4 +58,7 @@ public class Search
     public boolean isChildClub() { return childClub; }
     public boolean isCentralLocation() { return centralLocation; }
     public boolean isSeaView() { return seaView; }
+    public int getAdults() { return adults; }
+    public int getKids() { return kids; }
+    public String getLocation() { return location; };
 }

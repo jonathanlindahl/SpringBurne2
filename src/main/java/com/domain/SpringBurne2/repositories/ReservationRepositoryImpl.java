@@ -29,7 +29,9 @@ public class ReservationRepositoryImpl
                 rs.getBoolean("FullBoard"),
                 rs.getBoolean("AllInclusive"),
                 rs.getInt("ExtraBeds"),
-                rs.getInt("ExtraCribs"));
+                rs.getInt("ExtraCribs"),
+                rs.getInt("Aults"),
+                rs.getInt("Kids"));
     }
 
     public static List<Reservation> getAllReservations()

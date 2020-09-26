@@ -71,21 +71,17 @@ public class SearchWindow
 
         TableView roomTable = new TableView();
 
-        ObservableList<Integer> adults = FXCollections.observableArrayList( // TODO for loop för antal ? annars lägg till fler
-                1,
-                2,
-                3,
-                4
-        );
+        ObservableList<Integer> adults = FXCollections.observableArrayList();
+        for (int i = 1; i < 51; ++i)
+            adults.add(i);
         final ComboBox cboxAdults = new ComboBox(adults);
+        cboxAdults.setValue(adults.get(0));
 
-        ObservableList<Integer> children = FXCollections.observableArrayList( //TODO samma som den ovanför
-                1,
-                2,
-                3,
-                4
-        );
+        ObservableList<Integer> children = FXCollections.observableArrayList();
+        for (int i = 0; i < 51; ++i)
+            children.add(i);
         final ComboBox cboxChildren = new ComboBox(children);
+        cboxChildren.setValue(children.get(0));
 
         TableColumn<Room, Long> roomId = new TableColumn<>("Room ID");
         TableColumn<Room, String> roomName = new TableColumn<>("Name");
@@ -249,7 +245,9 @@ public class SearchWindow
                                 false,
                                 false,
                                 0,
-                                0));
+                                0,
+                                (Integer)cboxAdults.getValue(),
+                                (Integer)cboxChildren.getValue()));
             } catch (Exception ex) {
                 labelError.setText("Please select a room to view.");
                 ex.printStackTrace();
@@ -280,7 +278,10 @@ public class SearchWindow
                         cbRestaurant.isSelected(),
                         cbChildrensClub.isSelected(),
                         cbNightLife.isSelected(),
-                        cbSeaView.isSelected());
+                        cbSeaView.isSelected(),
+                        (Integer)cboxAdults.getValue(),
+                        (Integer)cboxChildren.getValue(),
+                        tfSearch.getText());
                 rooms = filterSearch(rooms, search);
             } catch (ParseException parseException) {
                 parseException.printStackTrace();
@@ -295,7 +296,10 @@ public class SearchWindow
                             cbRestaurant.isSelected(),
                             cbChildrensClub.isSelected(),
                             cbNightLife.isSelected(),
-                            cbSeaView.isSelected());
+                            cbSeaView.isSelected(),
+                            (Integer)cboxAdults.getValue(),
+                            (Integer)cboxChildren.getValue(),
+                            tfSearch.getText());
                     rooms = filterSearch(rooms, search);
                 } catch (ParseException pEx) {
                     pEx.printStackTrace();
@@ -352,6 +356,8 @@ public class SearchWindow
                 s.getStartDate(),
                 s.getEndDate())
                 .stream()
+                .filter(r -> r.getCity().contains(s.getLocation()))
+                .filter(r -> r.getBeds() >= s.getAdults())
                 .filter(r -> r.getDistanceToBeach() < s.getDistanceToBeach())
                 .filter(r -> r.getDistanceToCenter() < s.getDistanceToCenter())
                 .filter(r -> r.isPool() || !s.isPool())
