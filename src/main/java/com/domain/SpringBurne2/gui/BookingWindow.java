@@ -90,6 +90,18 @@ public class BookingWindow
         AnchorPane.setTopAnchor(labelName,5.0);
         AnchorPane.setLeftAnchor(labelName, 270.0);
 
+        AnchorPane.setTopAnchor(labelRoomName, 25.0);
+        AnchorPane.setLeftAnchor(labelRoomName, 270.0);
+
+        AnchorPane.setTopAnchor(labelCity, 55.0);
+        AnchorPane.setLeftAnchor(labelCity, 270.0);
+
+        AnchorPane.setTopAnchor(labelDescription, 75.0);
+        AnchorPane.setTopAnchor(labelDescription, 270.0);
+
+        AnchorPane.setTopAnchor(labelBeds, 95.0);
+        AnchorPane.setLeftAnchor(labelBeds, 270.0);
+
         bookingWindow.getChildren().addAll(
                 btnConfirm,
                 btnCancel,
