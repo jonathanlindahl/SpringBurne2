@@ -33,32 +33,30 @@ public class BookingWindow
 
         Label labelExtra = new Label("Extras: ");
         Label labelName = new Label("NAME OF HOTEL"); // kod för namn
+        Label labelRoomName = new Label("Room name"); // TODO kod för rumsnamn
+        Label labelCity = new Label("City"); // TODO kod för stad
+        Label labelDescription = new Label("Room description "); // TODO kod för beskrivning
+        Label labelRoomBeds = new Label("number of beds"); // TODO number of beds
         Label labelBeds = new Label("Extra beds:");
         Label labelCrib = new Label("Extra cribs:");
         Button btnConfirm = new Button("Confirm booking");
         Button btnCancel = new Button("Cancel and return");
         ToggleGroup tg = new ToggleGroup();
-        RadioButton rbHalfBoard = new RadioButton("Half board"); // TODO radio buttons
+        RadioButton rbHalfBoard = new RadioButton("Half board");
         RadioButton rbFullBoard = new RadioButton("Full board");
         RadioButton rbAllInclusive = new RadioButton("All inclusive");
         rbHalfBoard.setToggleGroup(tg);
         rbFullBoard.setToggleGroup(tg);
         rbAllInclusive.setToggleGroup(tg);
 
-        ObservableList<Integer> beds = FXCollections.observableArrayList(
-                1,
-                2,
-                3,
-                4
-        );
+        ObservableList<Integer> beds = FXCollections.observableArrayList();
+        for (int i = 1; i < 51; ++i)
+            beds.add(i);
         final ComboBox cboxBeds = new ComboBox(beds);
 
-        ObservableList<Integer> cribs = FXCollections.observableArrayList(
-                1,
-                2,
-                3,
-                4
-        );
+        ObservableList<Integer> cribs = FXCollections.observableArrayList();
+        for (int i = 1; i < 51; ++i)
+            cribs.add(i);
         final ComboBox cboxCrib = new ComboBox(cribs);
 
         AnchorPane.setBottomAnchor(btnConfirm, 5.0);
@@ -92,6 +90,18 @@ public class BookingWindow
         AnchorPane.setTopAnchor(labelName,5.0);
         AnchorPane.setLeftAnchor(labelName, 270.0);
 
+        AnchorPane.setTopAnchor(labelRoomName, 25.0);
+        AnchorPane.setLeftAnchor(labelRoomName, 270.0);
+
+        AnchorPane.setTopAnchor(labelCity, 55.0);
+        AnchorPane.setLeftAnchor(labelCity, 270.0);
+
+        AnchorPane.setTopAnchor(labelDescription, 75.0);
+        AnchorPane.setTopAnchor(labelDescription, 270.0);
+
+        AnchorPane.setTopAnchor(labelBeds, 95.0);
+        AnchorPane.setLeftAnchor(labelBeds, 270.0);
+
         bookingWindow.getChildren().addAll(
                 btnConfirm,
                 btnCancel,
@@ -103,7 +113,11 @@ public class BookingWindow
                 cboxCrib,
                 rbHalfBoard,
                 rbFullBoard,
-                rbAllInclusive);
+                rbAllInclusive,
+                labelRoomName,
+                labelDescription,
+                labelCity,
+                labelRoomBeds);
         primaryStage.setScene(bookingScene);
         primaryStage.show();
 
