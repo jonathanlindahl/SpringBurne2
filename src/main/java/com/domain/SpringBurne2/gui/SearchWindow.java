@@ -4,29 +4,22 @@ import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
 import com.domain.SpringBurne2.models.Reservation;
 import com.domain.SpringBurne2.models.Room;
-import com.domain.SpringBurne2.repositories.ReservationRepositoryImpl;
 import com.domain.SpringBurne2.gui.utility.Search;
-import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -128,7 +121,7 @@ public class SearchWindow
         AnchorPane.setBottomAnchor(btnSearch, 50.0);
         AnchorPane.setLeftAnchor(btnSearch, 250.0);
 
-        AnchorPane.setBottomAnchor(labelError,80.0);
+        AnchorPane.setBottomAnchor(labelError,30.0);
         AnchorPane.setLeftAnchor(labelError, 250.0);
 
         AnchorPane.setTopAnchor(tfSearch, 35.0);
