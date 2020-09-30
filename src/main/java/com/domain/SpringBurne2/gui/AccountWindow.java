@@ -3,18 +3,12 @@ package com.domain.SpringBurne2.gui;
 import com.domain.SpringBurne2.gui.utility.REST;
 import com.domain.SpringBurne2.models.Customer;
 import com.domain.SpringBurne2.models.Reservation;
-import com.domain.SpringBurne2.models.Room;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import java.util.Date;
 import java.util.List;
 
 public class AccountWindow
